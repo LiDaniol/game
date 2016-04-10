@@ -7,6 +7,7 @@ using namespace std;
 int main()
 {
 	Engine engine;
+	engine.loadConfig("main.conf");
 
 	while (engine.loop())
 	{

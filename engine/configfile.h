@@ -5,11 +5,16 @@
 #include <fstream>
 #include <vector>
 #include <utility>
+#include <iostream> // broke hte include record
+
+#include "stringutils.h"
 
 class Config
 {
 public:
-	Config(const std::string& file);
+	Config();
+
+	void open(const std::string& file);
 
 private:
 	std::ifstream configfile;

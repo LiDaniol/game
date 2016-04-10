@@ -32,3 +32,8 @@ void Engine::addTileMap(unsigned int wid, unsigned int hei, unsigned int tilesiz
 {
 	map = new Tilemap(wid, hei, tilesize, tex);
 }
+
+void Engine::loadConfig(const std::string& file)
+{
+	conf.open(file);
+}
