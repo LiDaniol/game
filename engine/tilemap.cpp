@@ -21,7 +21,7 @@ sf::VertexArray Tilemap::buildVertexArray() const
 	for(unsigned int y = 0; y < hei; ++y)
 	{
 		const unsigned int loc = (x + (y * wid)) * 4;
-		if (tiles[loc] != -1) // air
+		if (tiles[loc / 4] != -1) // air
 		{
 			vbo[loc].position     = sf::Vector2f(x * tilesize,       y * tilesize);
 			vbo[loc + 1].position = sf::Vector2f((x + 1) * tilesize, y * tilesize);
