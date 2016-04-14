@@ -17,11 +17,12 @@ public:
 
 	void addTileMap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex);
 	void loadConfig(const std::string& conf);
+	Config& getConfig();
 
 private:
 	Config conf;
 	sf::RenderWindow window;
-	Tilemap* map;
+	Tilemap* map = nullptr;
 };
 
 #endif

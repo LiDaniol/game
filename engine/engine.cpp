@@ -7,7 +7,7 @@ Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
 
 Engine::~Engine()
 {
-	if (map) delete map;
+	if (map != nullptr) delete map;
 }
 
 bool Engine::loop()
@@ -36,4 +36,9 @@ void Engine::addTileMap(unsigned int wid, unsigned int hei, unsigned int tilesiz
 void Engine::loadConfig(const std::string& file)
 {
 	conf.open(file);
+}
+
+Config& Engine::getConfig()
+{
+	return conf;
 }

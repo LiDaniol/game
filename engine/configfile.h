@@ -16,9 +16,14 @@ public:
 
 	void open(const std::string& file);
 
+	// For following functions, number = the number of the value to take
+	std::string getStringValue(const std::string& key, int number = 0, const std::string& ifnone = "");
+	std::vector<std::string> getArrayValue(const std::string& key, int number = 0, const std::vector<std::string>& ifnone = std::vector<std::string>());
+
 private:
 	std::ifstream configfile;
-	std::vector<std::pair<std::string, std::string>> dictionary;
+	std::vector<std::pair<std::string, std::string>> stringDictionary;
+	std::vector<std::pair<std::string, std::vector<std::string>>> arrayDictionary;
 };
 
 #endif
