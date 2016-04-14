@@ -11,7 +11,7 @@ void MetaTexture::create(std::vector<sf::Texture>& textures)
 {
 	// @TODO optimization - make a true packing algorithm
 	sf::Vector2u totalsize;
-	for (int i = 0; i < textures.size(); ++i)
+	for (unsigned int i = 0; i < textures.size(); ++i)
 	{
 		sf::Vector2u texsize = textures[i].getSize();
 		totalsize.x += texsize.x;
@@ -20,7 +20,7 @@ void MetaTexture::create(std::vector<sf::Texture>& textures)
 
 	tex.create(totalsize.x, totalsize.y);
 
-	for (int i = 0, currentx = 0; i < textures.size(); ++i)
+	for (unsigned int i = 0, currentx = 0; i < textures.size(); ++i)
 	{
 		sf::Sprite spr;
 		spr.setTexture(textures[i]);
@@ -38,7 +38,12 @@ sf::FloatRect& MetaTexture::getTile(unsigned int index)
 	return tiles[index];
 }
 
-sf::RenderTexture& MetaTexture::getTexture()
+sf::RenderTexture& MetaTexture::getMetaTexture()
 {
 	return tex;
+}
+
+const sf::Texture& MetaTexture::getTexture()
+{
+	return tex.getTexture();
 }

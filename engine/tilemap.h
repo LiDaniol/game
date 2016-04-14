@@ -10,7 +10,7 @@ class Tilemap : public sf::Drawable
 public:
 	Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex);
 
-	unsigned int& at(sf::Vector2u pos);
+	int& at(sf::Vector2u pos);
 
 	sf::VertexArray buildVertexArray() const;
 
@@ -19,7 +19,7 @@ private:
 
 	unsigned int wid, hei, tilesize;
 	MetaTexture& metatexture;
-	std::vector<unsigned int> tiles;
+	std::vector<int> tiles;
 };
 
 #endif

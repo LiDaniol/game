@@ -75,7 +75,7 @@ void Config::open(const std::string &file)
 	for (auto& i : arrayDictionary)
 	{
 		std::cout << " - " << i.first << " = { ";
-		for (int j = 0; j < i.second.size() - 1; ++j)
+		for (unsigned int j = 0; j < i.second.size() - 1; ++j)
 		{
 			std::cout << "\"" << i.second[j] << "\", ";
 		}

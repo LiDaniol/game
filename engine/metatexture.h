@@ -15,7 +15,8 @@ public:
 	void create(std::vector<sf::Texture>& textures);
 
 	sf::FloatRect& getTile(unsigned int index); // according to SFML wiki, some graphics drivers doesn't accept integer texture coordinates so avoid casting
-	sf::RenderTexture& getTexture();
+	sf::RenderTexture& getMetaTexture();
+	const sf::Texture& getTexture();
 
 private:
 	sf::RenderTexture tex;

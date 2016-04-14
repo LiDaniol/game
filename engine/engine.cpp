@@ -8,6 +8,7 @@ Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
 Engine::~Engine()
 {
 	if (map != nullptr) delete map;
+	if (meta != nullptr) delete meta;
 }
 
 bool Engine::loop()
@@ -25,13 +26,35 @@ void Engine::render()
 {
 	window.clear(sf::Color::Black);
 
+	sf::RenderStates states;
+	states.texture = &meta->getTexture();
+	window.draw(*map, states);
+
 	window.display();
 }
 
-void Engine::addTileMap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
+void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
 {
 	map = new Tilemap(wid, hei, tilesize, tex);
 }
+
+Tilemap* Engine::getTilemap() const { return map; }
+
+void Engine::generateTextureConfig(const std::string& key)
+{
+	std::vector<std::string> texnames = conf.getArrayValue(key);
+	std::vector<sf::Texture> texlist;
+
+	texlist.resize(texnames.size());
+	for (unsigned int i = 0; i < texnames.size(); ++i)
+	{
+		texlist[i].loadFromFile(texnames[i] + ".png");
+	}
+
+	meta = new MetaTexture(texlist);
+}
+
+MetaTexture* Engine::getMetaTexture() const { return meta; }
 
 void Engine::loadConfig(const std::string& file)
 {
