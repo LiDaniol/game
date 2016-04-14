@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <thread>
 #include "metatexture.h"
 
 class Tilemap : public sf::Drawable
@@ -12,13 +13,15 @@ public:
 
 	int& at(sf::Vector2u pos);
 
-	sf::VertexArray buildVertexArray() const;
+	void viewUpdate(const sf::View& view);
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+	sf::VertexArray buildVertexArray() const;
 
 	unsigned int wid, hei, tilesize;
 	MetaTexture& metatexture;
+	sf::VertexArray vbo;
 	std::vector<int> tiles;
 };
 

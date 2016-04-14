@@ -2,7 +2,7 @@
 
 Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
 {
-	window.setVerticalSyncEnabled(true);
+	//window.setVerticalSyncEnabled(true);
 }
 
 Engine::~Engine()
@@ -13,6 +13,8 @@ Engine::~Engine()
 
 bool Engine::loop()
 {
+	renderclock.restart();
+
 	sf::Event ev;
 	while (window.pollEvent(ev))
 	{
@@ -31,6 +33,8 @@ void Engine::render()
 	window.draw(*map, states);
 
 	window.display();
+
+	window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
 }
 
 void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
@@ -48,6 +52,7 @@ void Engine::generateTextureConfig(const std::string& key)
 	texlist.resize(texnames.size());
 	for (unsigned int i = 0; i < texnames.size(); ++i)
 	{
+		std::cout << "Loading texture from file '" << texnames[i] << ".png'" << std::endl;
 		texlist[i].loadFromFile(texnames[i] + ".png");
 	}
 
@@ -64,4 +69,16 @@ void Engine::loadConfig(const std::string& file)
 Config& Engine::getConfig()
 {
 	return conf;
+}
+
+sf::View& Engine::getView()
+{
+	return view;
+}
+
+void Engine::updateView(const sf::View& newView)
+{
+	view = newView;
+	window.setView(newView);
+	if (map != nullptr) map->viewUpdate(newView);
 }

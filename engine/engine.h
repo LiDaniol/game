@@ -24,9 +24,19 @@ public:
 	void loadConfig(const std::string& conf);
 	Config& getConfig();
 
+	sf::View& getView();
+	void updateView(const sf::View& newView);
+
 private:
+		/* Misc */
 	Config conf;
+	sf::Clock renderclock;
+
+		/* Windowing */
 	sf::RenderWindow window;
+	sf::View view;
+
+		/* Rendering */
 	Tilemap* map = nullptr;
 	MetaTexture* meta = nullptr;
 };

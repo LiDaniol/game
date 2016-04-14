@@ -9,7 +9,7 @@ int main()
 	Engine engine;
 	engine.loadConfig("main.conf");
 	engine.generateTextureConfig("tileset");
-	engine.addTilemap(80, 50, 8, *engine.getMetaTexture());
+	engine.addTilemap(80, 40, 8, *engine.getMetaTexture());
 
 	while (engine.loop())
 	{
