@@ -1,8 +1,9 @@
 #include "engine.h"
 
-Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
+Engine::Engine() : window(sf::VideoMode(1366, 768), "Game Engine")
 {
-	//window.setVerticalSyncEnabled(true);
+	std::cout << "Initializing engine..." << std::endl;
+	window.setVerticalSyncEnabled(true);
 }
 
 Engine::~Engine()
@@ -30,11 +31,16 @@ void Engine::render()
 
 	sf::RenderStates states;
 	states.texture = &meta->getTexture();
+	map->update(view);
 	window.draw(*map, states);
 
 	window.display();
 
-	window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
+	if (globalclock.getElapsedTime().asSeconds() > 1)
+	{
+		window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
+		globalclock.restart();
+	}
 }
 
 void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
@@ -50,9 +56,10 @@ void Engine::generateTextureConfig(const std::string& key)
 	std::vector<sf::Texture> texlist;
 
 	texlist.resize(texnames.size());
+	std::cout << "Loading textures from configuration file..." << std::endl;
 	for (unsigned int i = 0; i < texnames.size(); ++i)
 	{
-		std::cout << "Loading texture from file '" << texnames[i] << ".png'" << std::endl;
+		std::cout << ' ' << texnames[i] << ".png" << std::endl;
 		texlist[i].loadFromFile(texnames[i] + ".png");
 	}
 
@@ -71,14 +78,18 @@ Config& Engine::getConfig()
 	return conf;
 }
 
+void Engine::updateView(const sf::View& newView)
+{
+	view = newView;
+	window.setView(view);
+}
+
 sf::View& Engine::getView()
 {
 	return view;
 }
 
-void Engine::updateView(const sf::View& newView)
+sf::RenderWindow& Engine::getWindow()
 {
-	view = newView;
-	window.setView(newView);
-	if (map != nullptr) map->viewUpdate(newView);
+	return window;
 }

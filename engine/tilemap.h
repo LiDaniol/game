@@ -13,16 +13,20 @@ public:
 
 	int& at(sf::Vector2u pos);
 
-	void viewUpdate(const sf::View& view);
+	void update(const sf::View& view, int margin = 16); // margin is in tiles
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	sf::VertexArray buildVertexArray() const;
+	sf::VertexArray buildVertexArray(const sf::IntRect& rect) const;
 
 	unsigned int wid, hei, tilesize;
 	MetaTexture& metatexture;
 	sf::VertexArray vbo;
-	std::vector<int> tiles;
+
+	sf::IntRect vboview;
+
+	bool wasTilemapChanged = false;
+	std::vector<int> tiles; // tilemap
 };
 
 #endif

@@ -24,13 +24,17 @@ public:
 	void loadConfig(const std::string& conf);
 	Config& getConfig();
 
-	sf::View& getView();
 	void updateView(const sf::View& newView);
+	sf::View& getView();
+
+	sf::RenderWindow& getWindow();
 
 private:
 		/* Misc */
 	Config conf;
+
 	sf::Clock renderclock;
+	sf::Clock globalclock;
 
 		/* Windowing */
 	sf::RenderWindow window;
