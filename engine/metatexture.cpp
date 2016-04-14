@@ -31,6 +31,8 @@ void MetaTexture::create(std::vector<sf::Texture>& textures)
 		tiles.push_back(sf::FloatRect(currentx, 0, textures[i].getSize().x, textures[i].getSize().y));
 		currentx += textures[i].getSize().x;
 	}
+
+	tex.display();
 }
 
 sf::FloatRect& MetaTexture::getTile(unsigned int index)
