@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <thread>
+#include <stdlib.h>
+#include <iostream>
 #include "metatexture.h"
 
 class Tilemap : public sf::Drawable

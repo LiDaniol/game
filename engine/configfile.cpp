@@ -4,9 +4,18 @@ Config::Config() {}
 
 void Config::open(const std::string &file)
 {
-	std::cout << "Importing config from " << file << "..." <<  std::endl;
+	std::cout << "Importing config from " << file << "... ";
 
-	configfile.open("main.conf");
+	configfile.open(file);
+
+	if (!configfile.is_open())
+	{
+		std::cout << "Failed!" << std::endl << "Make sure the configuration file '" << file << "' is located in the executable directory OR that the \"game\" folder from git is your working directory." << std::endl;
+		return;
+	}
+
+	std::cout << "Done." << std::endl;
+
 	std::string line;
 
 	while (std::getline(configfile, line))

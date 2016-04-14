@@ -9,13 +9,13 @@ int main()
 	Engine engine;
 	engine.loadConfig("main.conf");
 	engine.generateTextureConfig("tileset");
-	engine.addTilemap(10, 10, 8, *engine.getMetaTexture());
+	engine.addTilemap(800, 800, 8, *engine.getMetaTexture());
 
 	while (engine.loop())
 	{
 		sf::RenderWindow& win = engine.getWindow();
 		sf::Vector2i mousepos = sf::Mouse::getPosition(win);
-		sf::View view(sf::FloatRect(mousepos.x, mousepos.y, win.getSize().x / 2.f, win.getSize().y / 2.f));
+		sf::View view(sf::FloatRect(mousepos.x, mousepos.y, win.getSize().x, win.getSize().y));
 		engine.updateView(view);
 
 		engine.render();

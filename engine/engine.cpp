@@ -21,6 +21,14 @@ bool Engine::loop()
 	{
 		if (ev.type == sf::Event::Closed)
 			window.close();
+
+		if (ev.type == sf::Event::Resized)
+		{
+			sf::View oldview = window.getView();
+			oldview.setSize(window.getSize().x, window.getSize().y);
+			view = oldview;
+			window.setView(view);
+		}
 	}
 	return window.isOpen();
 }
@@ -63,7 +71,9 @@ void Engine::generateTextureConfig(const std::string& key)
 		texlist[i].loadFromFile(texnames[i] + ".png");
 	}
 
+	std::cout << "Generating metatexture... ";
 	meta = new MetaTexture(texlist);
+	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << std::endl;
 }
 
 MetaTexture* Engine::getMetaTexture() const { return meta; }
@@ -81,6 +91,7 @@ Config& Engine::getConfig()
 void Engine::updateView(const sf::View& newView)
 {
 	view = newView;
+	view.zoom(.5f);
 	window.setView(view);
 }
 

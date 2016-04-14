@@ -1,11 +1,8 @@
-#include <stdlib.h>
-#include <iostream>
-
 #include "tilemap.h"
 
 Tilemap::Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex) : wid(wid), hei(hei), tilesize(tilesize), metatexture(tex), tiles(wid * hei) {
 	for (auto& i : tiles)
-		i = rand() % 3;
+		i = rand() % 4 - 1;
 }
 
 void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -42,8 +39,8 @@ sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const
 {
 	sf::VertexArray vbo(sf::Quads, rect.width * rect.height * 4); // Amount of tiles * tilesize
 
-	for(int x = rect.left, xl = 0; x < std::min(10, rect.left + rect.width); ++x, ++xl)
-	for(int y = rect.top, yl = 0; y < std::min(10, rect.top + rect.height); ++y, ++yl)
+	for(int x = rect.left, xl = 0; x < std::min(static_cast<int>(wid), rect.left + rect.width); ++x, ++xl)
+	for(int y = rect.top, yl = 0; y < std::min(static_cast<int>(hei), rect.top + rect.height); ++y, ++yl)
 	{
 		const unsigned int vloc = (xl + (yl * rect.width)) * 4, // VBO location
 						   rloc = (x + (y * wid)); // Tileset location
