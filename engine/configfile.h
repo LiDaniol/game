@@ -5,9 +5,10 @@
 #include <fstream>
 #include <vector>
 #include <utility>
-#include <iostream> // broke hte include record
+#include <iostream> // broke the include record
 
 #include "stringutils.h"
+#include "logger.h"
 
 class Config
 {

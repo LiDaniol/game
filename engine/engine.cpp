@@ -1,9 +1,8 @@
 #include "engine.h"
 
-Engine::Engine() : window(sf::VideoMode(1366, 768), "Game Engine")
+Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
 {
-	std::cout << "Initializing engine..." << std::endl;
-	window.setVerticalSyncEnabled(true);
+	task << "Initializing engine..." << endl;
 }
 
 Engine::~Engine()
@@ -30,6 +29,10 @@ bool Engine::loop()
 			window.setView(view);
 		}
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		window.close();
+
 	return window.isOpen();
 }
 
@@ -39,7 +42,7 @@ void Engine::render()
 
 	sf::RenderStates states;
 	states.texture = &meta->getTexture();
-	map->update(view);
+	map->update(view, vbomargin);
 	window.draw(*map, states);
 
 	window.display();
@@ -58,22 +61,32 @@ void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesiz
 
 Tilemap* Engine::getTilemap() const { return map; }
 
-void Engine::generateTextureConfig(const std::string& key)
+void Engine::generateTileConfig(const std::string& key)
 {
-	std::vector<std::string> texnames = conf.getArrayValue(key);
-	std::vector<sf::Texture> texlist;
+	std::vector<sf::Texture> texlist(3); // @TODO, custom count ofc
 
-	texlist.resize(texnames.size());
-	std::cout << "Loading textures from configuration file..." << std::endl;
-	for (unsigned int i = 0; i < texnames.size(); ++i)
+	task << "Loading textures from configuration file..." << endl;
+
+	int i = 0;
+	while (true)
 	{
-		std::cout << ' ' << texnames[i] << ".png" << std::endl;
-		texlist[i].loadFromFile(texnames[i] + ".png");
+		std::vector<std::string> tile = conf.getArrayValue(key, i);
+		if (tile.size() > 0)
+		{
+			info << ' ' << tile[0] << endl; // @TODO : Add a getKeyCount method
+			texlist[i].loadFromFile(tile[0]);
+		}
+		else
+		{
+			break;
+		}
+
+		i++;
 	}
 
-	std::cout << "Generating metatexture... ";
+	task << "Generating metatexture... ";
 	meta = new MetaTexture(texlist);
-	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << std::endl;
+	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << endl;
 }
 
 MetaTexture* Engine::getMetaTexture() const { return meta; }
@@ -81,6 +94,43 @@ MetaTexture* Engine::getMetaTexture() const { return meta; }
 void Engine::loadConfig(const std::string& file)
 {
 	conf.open(file);
+
+	if (conf.getStringValue("vsync") == "true")
+	{
+		info << "VSync activated" << endl;
+		window.setVerticalSyncEnabled(true);
+	}
+
+	if (conf.getStringValue("fullscreen") == "true")
+	{
+		int wid = std::stoi(conf.getStringValue("fwidth", 0, "0")), hei = std::stoi(conf.getStringValue("fheight", 0, "0"));
+		task << "Switching to fullscreen mode... ";
+
+		sf::VideoMode mode;
+		if (!wid && !hei)
+			mode = sf::VideoMode::getDesktopMode();
+		else
+			mode = sf::VideoMode(wid, hei);
+
+		window.close();
+		window.create(mode, "", sf::Style::Fullscreen);
+
+		std::cout << "Done." << endl;
+	}
+	else
+	{
+		int wid = std::stoi(conf.getStringValue("wwidth", 0, "800")), hei = std::stoi(conf.getStringValue("wheight", 0, "600"));
+
+		task << "Window size update... ";
+		window.setSize(sf::Vector2u(wid, hei));
+		std::cout << "Done." << endl;
+	}
+
+	vbomargin = std::stoi(conf.getStringValue("vbomargin", 0, "16"));
+	if (vbomargin != DEFAULT_VBOMARGIN)
+	{
+		info << "VBO view margin updated" << endl;
+	}
 }
 
 Config& Engine::getConfig()

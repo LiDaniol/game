@@ -4,17 +4,20 @@ Config::Config() {}
 
 void Config::open(const std::string &file)
 {
-	std::cout << "Importing config from " << file << "... ";
+	task << "Importing config from " << file << "... ";
 
 	configfile.open(file);
 
 	if (!configfile.is_open())
 	{
-		std::cout << "Failed!" << std::endl << "Make sure the configuration file '" << file << "' is located in the executable directory OR that the \"game\" folder from git is your working directory." << std::endl;
+		std::cout << endl;
+		err << "Failed!" << endl;
+		err << "Make sure the configuration file '" << file <<
+		"' is located in the executable directory OR that the \"game\" folder from git is your working directory." << endl;
 		return;
 	}
 
-	std::cout << "Done." << std::endl;
+	std::cout << "Done." << endl;
 
 	std::string line;
 
@@ -28,10 +31,10 @@ void Config::open(const std::string &file)
 			line = line.substr(0, commentpos);
 		}
 
-		if (eqpos != std::string::npos)
+		if (line != "" && eqpos != std::string::npos)
 		{
 			std::string key = trim(line.substr(0, eqpos)),
-					    result = trim(line.substr(eqpos + 1, line.size() - eqpos - 1));
+					result = trim(line.substr(eqpos + 1, line.size() - eqpos - 1));
 
 			if ((result.size() != 0) && (result[0] == '{'))
 			{
@@ -75,15 +78,15 @@ void Config::open(const std::string &file)
 		}
 	}
 
-	std::cout << "Available keys [" << stringDictionary.size() + arrayDictionary.size() << "] :" << std::endl;
+	info << "Available keys [" << stringDictionary.size() + arrayDictionary.size() << "] :" << endl;
 	for (auto& i : stringDictionary)
 	{
-		std::cout << " - " << i.first << " = \"" << i.second << "\"" << std::endl;
+		info << "- " << i.first << " = \"" << i.second << "\"" << endl;
 	}
 
 	for (auto& i : arrayDictionary)
 	{
-		std::cout << " - " << i.first << " = { ";
+		info << "- " << i.first << " = { ";
 		for (unsigned int j = 0; j < i.second.size() - 1; ++j)
 		{
 			std::cout << "\"" << i.second[j] << "\", ";
@@ -96,7 +99,7 @@ void Config::open(const std::string &file)
 std::string Config::getStringValue(const std::string& key, int number, const std::string& ifnone)
 {
 	for (auto& i : stringDictionary)
-		if (!number-- && key == i.first) return i.second;
+		if (key == i.first && !number--) return i.second;
 
 	return ifnone;
 }
@@ -104,7 +107,7 @@ std::string Config::getStringValue(const std::string& key, int number, const std
 std::vector<std::string> Config::getArrayValue(const std::string& key, int number, const std::vector<std::string>& ifnone)
 {
 	for (auto& i : arrayDictionary)
-		if (!number-- && key == i.first) return i.second;
+		if (key == i.first && !number--) return i.second;
 
 	return ifnone;
 }

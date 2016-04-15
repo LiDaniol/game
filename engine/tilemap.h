@@ -1,6 +1,8 @@
 #ifndef GAME_TILEMAP_H
 #define GAME_TILEMAP_H
 
+#define DEFAULT_VBOMARGIN 16
+
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <thread>
@@ -15,7 +17,7 @@ public:
 
 	int& at(sf::Vector2u pos);
 
-	void update(const sf::View& view, int margin = 16); // margin is in tiles
+	void update(const sf::View& view, int margin = DEFAULT_VBOMARGIN); // margin is in tiles
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
