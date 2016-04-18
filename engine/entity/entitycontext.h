@@ -7,8 +7,7 @@
 class EntityContext
 {
 public:
-
-
+	Entity& addEntity();
 	Entity& operator[](int index);
 
 private:

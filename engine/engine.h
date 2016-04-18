@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include "tilemap.h"
 #include "configfile.h"
+#include "entity/entitycontext.h"
 
 class Engine
 {
@@ -47,6 +48,9 @@ private:
 	MetaTexture* meta = nullptr;
 
 	int vbomargin = 16;
+
+		/* Entities */
+	EntityContext ctx;
 };
 
 #endif

@@ -11,12 +11,12 @@ public:
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& newPosition);
 
-	Sprite& getSprite();
+	Sprite* getSprite();
 
 private:
 	sf::Vector2f position;
 
-	Sprite spr;
+	Sprite* spr;
 };
 
 #endif

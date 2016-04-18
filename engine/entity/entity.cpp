@@ -10,7 +10,7 @@ void Entity::setPosition(const sf::Vector2f& newPosition)
 	position = newPosition;
 }
 
-Sprite& Entity::getSprite()
+Sprite* Entity::getSprite()
 {
 	return spr;
 }
