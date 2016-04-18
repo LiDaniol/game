@@ -1,6 +1,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "engine/engine.h"
+#include "engine/entity/sprite.h"
 
 using namespace std;
 
@@ -10,6 +11,9 @@ int main()
 	engine.loadConfig("main.conf");
 	engine.generateTileConfig("tile");
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
+
+	sf::Texture tex; tex.loadFromFile("ship_ctmpalette1.png");
+	Sprite spr(&tex);
 
 	while (engine.loop())
 	{

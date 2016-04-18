@@ -34,7 +34,14 @@ SpriteLayer& Sprite::addSpriteLayer()
 	return layers[layers.size() - 1];
 }
 
+SpriteLayer& Sprite::operator[](int index)
+{
+	return layers[index];
+}
+
 sf::Texture* Sprite::getTexture() const
 {
 	return tex;
 }
+
+Sprite::Sprite(sf::Texture *tex) : tex(tex) {}

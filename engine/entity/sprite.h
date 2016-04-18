@@ -26,9 +26,12 @@ private:
 class Sprite : public sf::Drawable
 {
 public:
+	Sprite(sf::Texture* tex);
+
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	SpriteLayer& addSpriteLayer();
+	SpriteLayer& operator[](int index);
 
 	sf::Texture* getTexture() const;
 
