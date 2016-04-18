@@ -40,6 +40,8 @@ private:
 	sf::RenderWindow window;
 	sf::View view;
 
+	bool fullscreen = false; // Redefining this won't change the fullscreen mode.
+
 		/* Rendering */
 	Tilemap* map = nullptr;
 	MetaTexture* meta = nullptr;

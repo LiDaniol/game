@@ -1,5 +1,22 @@
 #include "configfile.h"
 
+bool StringValue::asBool(bool defaultValue)
+{
+	if ((value == "true") | (value == "1"))
+	{
+		return true;
+	}
+	else if ((value == "false") | (value == "0"))
+	{
+		return false;
+	}
+	else
+	{
+		warn << "Value error during parsing : Given value is not a boolean" << endl;
+		return defaultValue;
+	}
+}
+
 Config::Config() {}
 
 void Config::open(const std::string &file)
@@ -38,7 +55,7 @@ void Config::open(const std::string &file)
 
 			if ((result.size() != 0) && (result[0] == '{'))
 			{
-				std::vector<std::string> array;
+				std::vector<StringValue> array;
 
 				size_t x = 1; // skip '{'
 				while (true)
@@ -47,7 +64,7 @@ void Config::open(const std::string &file)
 					while (commapos != std::string::npos)
 					{
 						std::string elem = result.substr(x, commapos - x);
-						array.push_back(trim(elem));
+						array.push_back(StringValue{trim(elem)});
 
 						x = commapos + 1;
 						commapos = result.find(',', x);
@@ -57,7 +74,7 @@ void Config::open(const std::string &file)
 					if (endpos != std::string::npos)
 					{
 						std::string elem = result.substr(x, endpos - x);
-						array.push_back(trim(elem));
+						array.push_back({trim(elem)});
 						break;
 					}
 
@@ -69,11 +86,11 @@ void Config::open(const std::string &file)
 					result = trim(line);
 					x = 0;
 				}
-				arrayDictionary.push_back({key, array});
+				arrayDictionary.push_back({key, StringArrayValue{array}});
 			}
 			else
 			{
-				stringDictionary.push_back({key, result});
+				stringDictionary.push_back({key, StringValue{result}});
 			}
 		}
 	}
@@ -81,30 +98,30 @@ void Config::open(const std::string &file)
 	info << "Available keys [" << stringDictionary.size() + arrayDictionary.size() << "] :" << endl;
 	for (auto& i : stringDictionary)
 	{
-		info << "- " << i.first << " = \"" << i.second << "\"" << endl;
+		info << "- " << i.first << " = \"" << i.second.value << "\"" << endl;
 	}
 
 	for (auto& i : arrayDictionary)
 	{
 		info << "- " << i.first << " = { ";
-		for (unsigned int j = 0; j < i.second.size() - 1; ++j)
+		for (unsigned int j = 0; j < i.second.values.size() - 1; ++j)
 		{
-			std::cout << "\"" << i.second[j] << "\", ";
+			std::cout << "\"" << i.second.values[j].value << "\", ";
 		}
 
-		std::cout << "\"" << i.second[i.second.size() - 1] << "\" }" << std::endl; // @TODO that better
+		std::cout << "\"" << i.second.values[i.second.values.size() - 1].value << "\" }" << std::endl; // @TODO that better
 	}
 }
 
-std::string Config::getStringValue(const std::string& key, int number, const std::string& ifnone)
+StringValue Config::getStringValue(const std::string& key, int number, const std::string& ifnone)
 {
 	for (auto& i : stringDictionary)
 		if (key == i.first && !number--) return i.second;
 
-	return ifnone;
+	return StringValue{ifnone};
 }
 
-std::vector<std::string> Config::getArrayValue(const std::string& key, int number, const std::vector<std::string>& ifnone)
+StringArrayValue Config::getArrayValue(const std::string& key, int number, const StringArrayValue& ifnone)
 {
 	for (auto& i : arrayDictionary)
 		if (key == i.first && !number--) return i.second;

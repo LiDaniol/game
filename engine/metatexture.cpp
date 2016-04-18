@@ -35,7 +35,7 @@ void MetaTexture::create(std::vector<sf::Texture>& textures)
 	tex.display();
 }
 
-sf::FloatRect& MetaTexture::getTile(unsigned int index)
+sf::FloatRect& MetaTexture::getTexRect(unsigned int index)
 {
 	return tiles[index];
 }

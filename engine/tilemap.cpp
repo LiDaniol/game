@@ -2,7 +2,7 @@
 
 Tilemap::Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex) : wid(wid), hei(hei), tilesize(tilesize), metatexture(tex), tiles(wid * hei) {
 	for (auto& i : tiles)
-		i = rand() % 4 - 1;
+		i = rand() % 5 - 1;
 }
 
 void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -51,7 +51,7 @@ sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const
 			vbo[vloc + 2].position = sf::Vector2f((x + 1) * tilesize, (y + 1) * tilesize);
 			vbo[vloc + 3].position = sf::Vector2f(x * tilesize,       (y + 1) * tilesize);
 
-			const sf::FloatRect texrect = metatexture.getTile(tiles[rloc]);
+			const sf::FloatRect texrect = metatexture.getTexRect(tiles[rloc]);
 			vbo[vloc].texCoords     = sf::Vector2f(texrect.left, texrect.top);
 			vbo[vloc + 1].texCoords = sf::Vector2f(texrect.left + texrect.width, texrect.top);
 			vbo[vloc + 2].texCoords = sf::Vector2f(texrect.left + texrect.width, texrect.top + texrect.height);

@@ -47,7 +47,7 @@ void Engine::render()
 
 	window.display();
 
-	if (globalclock.getElapsedTime().asSeconds() > 1)
+	if (!fullscreen && globalclock.getElapsedTime().asSeconds() > 1)
 	{
 		window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
 		globalclock.restart();
@@ -63,18 +63,18 @@ Tilemap* Engine::getTilemap() const { return map; }
 
 void Engine::generateTileConfig(const std::string& key)
 {
-	std::vector<sf::Texture> texlist(3); // @TODO, custom count ofc
+	std::vector<sf::Texture> texlist(4); // @TODO, custom count ofc
 
 	task << "Loading textures from configuration file..." << endl;
 
 	int i = 0;
 	while (true)
 	{
-		std::vector<std::string> tile = conf.getArrayValue(key, i);
+		std::vector<StringValue> tile = conf.getArrayValue(key, i).values;
 		if (tile.size() > 0)
 		{
-			info << ' ' << tile[0] << endl; // @TODO : Add a getKeyCount method
-			texlist[i].loadFromFile(tile[0]);
+			info << ' ' << tile[0].value << endl; // @TODO : Add a getKeyCount method
+			texlist[i].loadFromFile(tile[0].value);
 		}
 		else
 		{
@@ -95,15 +95,17 @@ void Engine::loadConfig(const std::string& file)
 {
 	conf.open(file);
 
-	if (conf.getStringValue("vsync") == "true")
+	if (conf.getStringValue("vsync").asBool())
 	{
 		info << "VSync activated" << endl;
 		window.setVerticalSyncEnabled(true);
 	}
 
-	if (conf.getStringValue("fullscreen") == "true")
+	if (conf.getStringValue("fullscreen").asBool())
 	{
-		int wid = std::stoi(conf.getStringValue("fwidth", 0, "0")), hei = std::stoi(conf.getStringValue("fheight", 0, "0"));
+		fullscreen = true;
+
+		int wid = conf.getStringValue("fwidth").parse(0, std::stoi), hei = conf.getStringValue("fheight", 0).parse(0, std::stoi);
 		task << "Switching to fullscreen mode... ";
 
 		sf::VideoMode mode;
@@ -119,14 +121,14 @@ void Engine::loadConfig(const std::string& file)
 	}
 	else
 	{
-		int wid = std::stoi(conf.getStringValue("wwidth", 0, "800")), hei = std::stoi(conf.getStringValue("wheight", 0, "600"));
+		int wid = conf.getStringValue("wwidth").parse(800, std::stoi), hei = conf.getStringValue("wheight").parse(600, std::stoi);
 
 		task << "Window size update... ";
 		window.setSize(sf::Vector2u(wid, hei));
 		std::cout << "Done." << endl;
 	}
 
-	vbomargin = std::stoi(conf.getStringValue("vbomargin", 0, "16"));
+	vbomargin = conf.getStringValue("vbomargin").parse(16, std::stoi);
 	if (vbomargin != DEFAULT_VBOMARGIN)
 	{
 		info << "VBO view margin updated" << endl;
