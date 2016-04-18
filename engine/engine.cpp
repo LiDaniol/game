@@ -63,25 +63,15 @@ Tilemap* Engine::getTilemap() const { return map; }
 
 void Engine::generateTileConfig(const std::string& key)
 {
-	std::vector<sf::Texture> texlist(4); // @TODO, custom count ofc
+	std::vector<sf::Texture> texlist(conf.getStringArrayMatchCount(key));
 
 	task << "Loading textures from configuration file..." << endl;
 
-	int i = 0;
-	while (true)
+	for (unsigned int i = 0; i < texlist.size(); ++i)
 	{
-		std::vector<StringValue> tile = conf.getArrayValue(key, i).values;
-		if (tile.size() > 0)
-		{
-			info << ' ' << tile[0].value << endl; // @TODO : Add a getKeyCount method
-			texlist[i].loadFromFile(tile[0].value);
-		}
-		else
-		{
-			break;
-		}
-
-		i++;
+		std::vector<StringValue> tile = conf.getArrayValue(key, i).values; // @TODO make this more efficient
+		info << ' ' << tile[0].value << endl;
+		texlist[i].loadFromFile(tile[0].value);
 	}
 
 	task << "Generating metatexture... ";
