@@ -28,6 +28,8 @@ public:
 	void updateView(const sf::View& newView);
 	sf::View& getView();
 
+	EntityContext& getContext();
+
 	sf::RenderWindow& getWindow();
 
 private:

@@ -146,3 +146,8 @@ sf::RenderWindow& Engine::getWindow()
 {
 	return window;
 }
+
+EntityContext& Engine::getContext()
+{
+	return ctx;
+}

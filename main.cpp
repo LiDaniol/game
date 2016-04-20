@@ -15,6 +15,8 @@ int main()
 	sf::Texture tex; tex.loadFromFile("ship_ctmpalette1.png");
 	Sprite spr(&tex);
 
+	engine.getContext().addEntity();
+
 	while (engine.loop())
 	{
 		sf::RenderWindow& win = engine.getWindow();

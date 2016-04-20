@@ -37,7 +37,7 @@ int& Tilemap::at(sf::Vector2u pos)
 
 sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const
 {
-	sf::VertexArray vbo(sf::Quads, rect.width * rect.height * 4); // Amount of tiles * tilesize
+	sf::VertexArray vbo(sf::Quads, rect.width * rect.height * 4); // Amount of tiles * vertice per square
 
 	for(int x = rect.left, xl = 0; x < std::min(static_cast<int>(wid), rect.left + rect.width); ++x, ++xl)
 	for(int y = rect.top, yl = 0; y < std::min(static_cast<int>(hei), rect.top + rect.height); ++y, ++yl)
