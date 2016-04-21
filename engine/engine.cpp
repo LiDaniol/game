@@ -63,7 +63,7 @@ Tilemap* Engine::getTilemap() const { return map; }
 
 void Engine::importTextureConfig(const std::string& key)
 {
-	int resourceCount = conf.getCountArray(key), firstit = texlist.size();
+	unsigned int resourceCount = conf.getCountArray(key), firstit = texlist.size();
 	texlist.resize(firstit + resourceCount);
 
 	task << "Loading texture batch with key '" << key << "'..." << endl;
@@ -88,7 +88,7 @@ void Engine::importSpritesConfig(const std::string &key)
 
 void Engine::buildMeta()
 {
-	task << "Generating metatexture... ";
+	task << "Generating metatexture from imported textures... ";
 	meta = new MetaTexture(texlist);
 	texlist.clear();
 	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << endl;
