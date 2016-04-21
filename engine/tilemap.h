@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "metatexture.h"
+#include "mathutils.h"
 
 class Tilemap : public sf::Drawable
 {

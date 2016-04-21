@@ -17,14 +17,20 @@ void Tilemap::update(const sf::View& view, int margin)
 						(view.getSize().x) / tilesize,
 						(view.getSize().y) / tilesize); // @TODO Handle rotations & all the shizzle because SFML.
 
+	sf::IntRect maprect(0, 0, wid, hei);
+
+	newView = clip(newView, maprect);
+
 	const sf::Vector2i topleft(newView.left, newView.top),
 			           bottomright(newView.left + newView.width, newView.top + newView.height);
 	if (wasTilemapChanged || !vboview.contains(topleft) || !vboview.contains(bottomright)) // if a VBO update is required
 	{
-		vboview = sf::IntRect(std::max(0, newView.left - margin),
-				              std::max(0, newView.top - margin),
-				              std::min(static_cast<int>(wid), newView.width + (margin * 2)),
-				              std::min(static_cast<int>(hei), newView.height + (margin * 2)));
+		std::cout << "update" << std::endl;
+		vboview = sf::IntRect(newView.left - margin,
+				              newView.top - margin,
+				              newView.width + (margin * 2),
+				              newView.height + (margin * 2));
+		vboview = clip(vboview, maprect);
 
 		vbo = buildVertexArray(vboview);
 	}
