@@ -52,8 +52,8 @@ public:
 	StringValue getStringValue(const std::string& key, int number = 0, const std::string& ifnone = "");
 	StringArrayValue getArrayValue(const std::string& key, int number = 0, const StringArrayValue& ifnone = StringArrayValue{std::vector<StringValue>()});
 
-	size_t getStringMatchCount(const std::string& key);
-	size_t getStringArrayMatchCount(const std::string& key);
+	size_t getCountString(const std::string &key);
+	size_t getCountArray(const std::string &key);
 
 private:
 	std::ifstream configfile;

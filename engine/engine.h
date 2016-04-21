@@ -22,6 +22,10 @@ public:
 	void generateTileConfig(const std::string& key);
 	MetaTexture* getMetaTexture() const;
 
+	void importSpritesConfig(const std::string &key);
+
+	void buildMeta();
+
 	void loadConfig(const std::string& conf);
 	Config& getConfig();
 
@@ -53,6 +57,11 @@ private:
 
 		/* Entities */
 	EntityContext ctx;
+
+		/* Resource managment */
+	std::vector<sf::Texture> texlist;
+
+	void importTextureConfig(const std::string& key);
 };
 
 #endif

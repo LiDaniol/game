@@ -129,7 +129,7 @@ StringArrayValue Config::getArrayValue(const std::string& key, int number, const
 	return ifnone;
 }
 
-size_t Config::getStringMatchCount(const std::string& key)
+size_t Config::getCountString(const std::string &key)
 {
 	int c = 0;
 	for (auto& i : stringDictionary)
@@ -137,7 +137,7 @@ size_t Config::getStringMatchCount(const std::string& key)
 	return c;
 }
 
-size_t Config::getStringArrayMatchCount(const std::string& key)
+size_t Config::getCountArray(const std::string &key)
 {
 	int c = 0;
 	for (auto& i : arrayDictionary)

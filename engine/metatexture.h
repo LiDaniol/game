@@ -10,8 +10,6 @@ public:
 	MetaTexture();
 	MetaTexture(std::vector<sf::Texture>& textures);
 
-	MetaTexture& operator=(const MetaTexture& other);
-
 	void create(std::vector<sf::Texture>& textures);
 
 	sf::FloatRect& getTexRect(unsigned int index); // according to SFML wiki, some graphics drivers doesn't accept integer texture coordinates so avoid casting

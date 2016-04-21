@@ -3,13 +3,14 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "../metatexture.h"
 
 class Sprite;
 
 class SpriteLayer : public sf::Drawable
 {
 public:
-	SpriteLayer(Sprite* spr);
+	SpriteLayer(Sprite* spr, int frameid);
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
@@ -21,23 +22,25 @@ private:
 	sf::Transform transformation;
 
 	Sprite* mainspr;
+
+	int frameid;
 };
 
 class Sprite : public sf::Drawable
 {
 public:
-	Sprite(sf::Texture* tex);
+	Sprite(MetaTexture& tex);
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	SpriteLayer& addSpriteLayer();
+	SpriteLayer& addSpriteLayer(int frameid);
 	SpriteLayer& operator[](int index);
 
-	sf::Texture* getTexture() const;
+	MetaTexture& getMeta();
 
 private:
 	std::vector<SpriteLayer> layers;
-	sf::Texture* tex;
+	MetaTexture& tex;
 };
 
 #endif

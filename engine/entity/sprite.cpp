@@ -1,11 +1,11 @@
 #include "sprite.h"
 
-SpriteLayer::SpriteLayer(Sprite* spr) : mainspr(spr) {}
+SpriteLayer::SpriteLayer(Sprite* spr, int frameid) : mainspr(spr), frameid(frameid) {}
 
 void SpriteLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform = transformation;
-	states.texture = mainspr->getTexture();
+	states.texture = &mainspr->getMeta().getTexture();
 
 	target.draw(vbo, states);
 }
@@ -28,9 +28,9 @@ void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
 }
 
-SpriteLayer& Sprite::addSpriteLayer()
+SpriteLayer& Sprite::addSpriteLayer(int frameid)
 {
-	layers.push_back(SpriteLayer(this));
+	layers.push_back(SpriteLayer(this, frameid));
 	return layers[layers.size() - 1];
 }
 
@@ -39,9 +39,9 @@ SpriteLayer& Sprite::operator[](int index)
 	return layers[index];
 }
 
-sf::Texture* Sprite::getTexture() const
+MetaTexture& Sprite::getMeta()
 {
 	return tex;
 }
 
-Sprite::Sprite(sf::Texture *tex) : tex(tex) {}
+Sprite::Sprite(MetaTexture& tex) : tex(tex) {}

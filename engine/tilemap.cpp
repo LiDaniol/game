@@ -25,7 +25,6 @@ void Tilemap::update(const sf::View& view, int margin)
 			           bottomright(newView.left + newView.width, newView.top + newView.height);
 	if (wasTilemapChanged || !vboview.contains(topleft) || !vboview.contains(bottomright)) // if a VBO update is required
 	{
-		std::cout << "update" << std::endl;
 		vboview = sf::IntRect(newView.left - margin,
 				              newView.top - margin,
 				              newView.width + (margin * 2),

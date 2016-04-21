@@ -61,21 +61,36 @@ void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesiz
 
 Tilemap* Engine::getTilemap() const { return map; }
 
+void Engine::importTextureConfig(const std::string& key)
+{
+	int resourceCount = conf.getCountArray(key), firstit = texlist.size();
+	texlist.resize(firstit + resourceCount);
+
+	task << "Loading texture batch with key '" << key << "'..." << endl;
+
+	for (unsigned int i = 0; i < resourceCount; ++i)
+	{
+		std::vector<StringValue> texdata = conf.getArrayValue(key, i).values;
+		info << ' ' << texdata[0].value << endl;
+		texlist[i + firstit].loadFromFile(texdata[0].value);
+	}
+}
+
 void Engine::generateTileConfig(const std::string& key)
 {
-	std::vector<sf::Texture> texlist(conf.getStringArrayMatchCount(key));
+	importTextureConfig(key);
+}
 
-	task << "Loading textures from configuration file..." << endl;
+void Engine::importSpritesConfig(const std::string &key)
+{
+	importTextureConfig(key);
+}
 
-	for (unsigned int i = 0; i < texlist.size(); ++i)
-	{
-		std::vector<StringValue> tile = conf.getArrayValue(key, i).values; // @TODO make this more efficient
-		info << ' ' << tile[0].value << endl;
-		texlist[i].loadFromFile(tile[0].value);
-	}
-
+void Engine::buildMeta()
+{
 	task << "Generating metatexture... ";
 	meta = new MetaTexture(texlist);
+	texlist.clear();
 	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << endl;
 }
 

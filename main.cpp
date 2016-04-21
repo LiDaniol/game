@@ -9,11 +9,13 @@ int main()
 {
 	Engine engine;
 	engine.loadConfig("main.conf");
-	engine.generateTileConfig("tile");
-	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
 
-	sf::Texture tex; tex.loadFromFile("ship_ctmpalette1.png");
-	Sprite spr(&tex);
+	// Import resources
+	engine.generateTileConfig("tile"); // Import tiles from config
+	engine.importSpritesConfig("sprite");
+	engine.buildMeta();
+
+	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
 
 	engine.getContext().addEntity();
 
