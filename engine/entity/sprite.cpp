@@ -88,6 +88,8 @@ MetaTexture& Sprite::getMeta()
 void Sprite::setPosition(sf::Vector2f pos)
 {
 	position = pos;
+	for (SpriteLayer& i : layers)
+		i.update(tex.getTexRect(i.getFrameID()));
 }
 
 sf::Vector2f Sprite::getPosition() const
