@@ -20,6 +20,8 @@ public:
 
 	void update(const sf::View& view, int margin = DEFAULT_VBOMARGIN); // margin is in tiles
 
+	int getTilesize() const;
+
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	sf::VertexArray buildVertexArray(const sf::IntRect& rect) const;

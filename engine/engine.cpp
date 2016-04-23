@@ -188,10 +188,14 @@ Config& Engine::getConfig()
 	return conf;
 }
 
-void Engine::updateView(const sf::View& newView)
+void Engine::updateView(const sf::View& newView, int preferredWidth)
 {
 	view = newView;
-	view.zoom(.5f);
+
+	// Determine best zoom level
+	if (map)
+		view.zoom(1.f / static_cast<int>( view.getSize().x / (preferredWidth * map->getTilesize()) ));
+
 	window.setView(view);
 }
 

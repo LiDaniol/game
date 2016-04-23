@@ -29,7 +29,7 @@ public:
 	void loadConfig(const std::string& conf);
 	Config& getConfig();
 
-	void updateView(const sf::View& newView);
+	void updateView(const sf::View& newView, int preferredWidth = 50);
 	sf::View& getView();
 
 	EntityContext& getContext();

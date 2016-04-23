@@ -35,6 +35,11 @@ void Tilemap::update(const sf::View& view, int margin)
 	}
 }
 
+int Tilemap::getTilesize() const
+{
+	return tilesize;
+}
+
 int& Tilemap::at(sf::Vector2u pos)
 {
 	return tiles[pos.x + (pos.y * wid)];
