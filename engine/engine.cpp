@@ -192,7 +192,7 @@ void Engine::updateView(const sf::View& newView, int preferredWidth)
 {
 	view = newView;
 
-	// Determine best zoom level
+	// Determine best zoom level, if at least a tilemap is present
 	if (map)
 		view.zoom(1.f / static_cast<int>( view.getSize().x / (preferredWidth * map->getTilesize()) ));
 
