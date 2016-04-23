@@ -1,21 +1,23 @@
 #include "sprite.h"
 
-SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::Vector2f offset) : mainspr(spr), offset(offset), frameid(frameid)
+/**** SpriteLayer ****/
+
+SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : mainspr(spr), offset(offset), rect(rect), frameid(frameid)
 {
-	sf::FloatRect texRect = mainspr->getMeta().getTexRect(frameid);
+	sf::FloatRect sprrect = spr->getMeta().getTexRect(frameid);
 
 	vbo.resize(4);
-	update(texRect);
+	update(rect);
 
-	vbo[0].texCoords = sf::Vector2f(texRect.left, texRect.top); // Top left
-	vbo[1].texCoords = sf::Vector2f(texRect.left + texRect.width, texRect.top); // Top right
-	vbo[2].texCoords = sf::Vector2f(texRect.left + texRect.width, texRect.top + texRect.height); // Bottom right
-	vbo[3].texCoords = sf::Vector2f(texRect.left, texRect.top + texRect.height); // Bottom left
+	vbo[0].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top); // Top left
+	vbo[1].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width,  sprrect.top + rect.top); // Top right
+	vbo[2].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width, sprrect.top + rect.top + rect.height); // Bottom right
+	vbo[3].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top + rect.height); // Bottom left
 }
 
 void SpriteLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform = transformation;
+	states.transform = transform * mainspr->getTransform();
 	states.texture = &mainspr->getMeta().getTexture();
 
 	target.draw(vbo, states);
@@ -48,7 +50,7 @@ sf::VertexArray& SpriteLayer::getVBO()
 
 sf::Transform& SpriteLayer::getTransform()
 {
-	return transformation;
+	return transform;
 }
 
 void SpriteLayer::setOffset(sf::Vector2f newOffset)
@@ -61,6 +63,10 @@ sf::Vector2f SpriteLayer::getOffset()
 	return offset;
 }
 
+/**** Sprite ****/
+
+Sprite::Sprite(MetaTexture& tex) : tex(tex) {}
+
 void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	for (const SpriteLayer& layer : layers)
@@ -69,9 +75,9 @@ void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
 }
 
-SpriteLayer& Sprite::addSpriteLayer(int frameid)
+SpriteLayer& Sprite::addSpriteLayer(int frameid, sf::FloatRect rect)
 {
-	layers.push_back(SpriteLayer(this, frameid));
+	layers.push_back(SpriteLayer(this, frameid, rect));
 	return layers[layers.size() - 1];
 }
 
@@ -97,4 +103,7 @@ sf::Vector2f Sprite::getPosition() const
 	return position;
 }
 
-Sprite::Sprite(MetaTexture& tex) : tex(tex) {}
+sf::Transform& Sprite::getTransform()
+{
+	return masterTransform;
+}

@@ -61,10 +61,12 @@ void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesiz
 
 Tilemap* Engine::getTilemap() const { return map; }
 
-void Engine::importTextureConfig(const std::string& key)
+std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfig(const std::string &key)
 {
 	unsigned int resourceCount = conf.getCountArray(key), firstit = texlist.size();
 	texlist.resize(firstit + resourceCount);
+
+	std::vector<std::pair<std::vector<StringValue>, int>> remainingMatches(resourceCount); // Extra config key data
 
 	task << "Loading texture batch with key '" << key << "'..." << endl;
 
@@ -73,7 +75,16 @@ void Engine::importTextureConfig(const std::string& key)
 		std::vector<StringValue> texdata = conf.getArrayValue(key, i).values;
 		info << ' ' << texdata[0].value << endl;
 		texlist[i + firstit].loadFromFile(texdata[0].value);
+
+		remainingMatches[i].second = i; // assign texture ID
+		remainingMatches[i].first.resize(texdata.size() - 1);
+		for (unsigned int j = 1; j < texdata.size(); ++j)
+		{
+			remainingMatches[i].first[j - 1] = texdata[j];
+		}
 	}
+
+	return remainingMatches;
 }
 
 void Engine::generateTileConfig(const std::string& key)
@@ -81,9 +92,41 @@ void Engine::generateTileConfig(const std::string& key)
 	importTextureConfig(key);
 }
 
-void Engine::importSpritesConfig(const std::string &key)
+void Engine::importSpritesConfig(const std::string& texkey, const std::string& layerkey)
 {
-	importTextureConfig(key);
+	auto remainingData = importTextureConfig(texkey);
+
+	sprdata.resize(remainingData.size());
+	for (unsigned int i = 0; i < remainingData.size(); ++i)
+	{
+		sprdata[i].name = remainingData[i].first[0].value;
+		sprdata[i].metaframe = remainingData[i].second;
+	}
+
+	unsigned int resourceCount = conf.getCountArray(layerkey);
+
+	for (unsigned int i = 0; i < resourceCount; ++i)
+	{
+		std::vector<StringValue> layerdata = conf.getArrayValue(layerkey, i).values;
+		SpriteData* data;
+
+		for (unsigned int j = 0; j < sprdata.size(); ++j)
+		{
+			if (sprdata[j].name == layerdata[0].value)
+			{
+				data = &sprdata[j];
+				break;
+			}
+		}
+
+		if (data)
+		{
+			data->metarects.push_back(sf::FloatRect(layerdata[2].parse(0, std::stoi), // @TODO : use stof (and fix that parse method when using them)
+			                                        layerdata[3].parse(0, std::stoi),
+													layerdata[4].parse(0, std::stoi),
+													layerdata[5].parse(0, std::stoi)));
+		}
+	}
 }
 
 void Engine::buildMeta()
@@ -100,17 +143,17 @@ void Engine::loadConfig(const std::string& file)
 {
 	conf.open(file);
 
-	if (conf.getStringValue("vsync").asBool())
+	if (conf.getStringValue("vsync", 0).asBool())
 	{
 		info << "VSync activated" << endl;
 		window.setVerticalSyncEnabled(true);
 	}
 
-	if (conf.getStringValue("fullscreen").asBool())
+	if (conf.getStringValue("fullscreen", 0).asBool())
 	{
 		fullscreen = true;
 
-		int wid = conf.getStringValue("fwidth").parse(0, std::stoi), hei = conf.getStringValue("fheight", 0).parse(0, std::stoi);
+		int wid = conf.getStringValue("fwidth", 0).parse(0, std::stoi), hei = conf.getStringValue("fheight", 0).parse(0, std::stoi);
 		task << "Switching to fullscreen mode... ";
 
 		sf::VideoMode mode;
@@ -126,14 +169,14 @@ void Engine::loadConfig(const std::string& file)
 	}
 	else
 	{
-		int wid = conf.getStringValue("wwidth").parse(800, std::stoi), hei = conf.getStringValue("wheight").parse(600, std::stoi);
+		int wid = conf.getStringValue("wwidth", 0).parse(800, std::stoi), hei = conf.getStringValue("wheight", 0).parse(600, std::stoi);
 
 		task << "Window size update... ";
 		window.setSize(sf::Vector2u(wid, hei));
 		std::cout << "Done." << endl;
 	}
 
-	vbomargin = conf.getStringValue("vbomargin").parse(16, std::stoi);
+	vbomargin = conf.getStringValue("vbomargin", 0).parse(16, std::stoi);
 	if (vbomargin != DEFAULT_VBOMARGIN)
 	{
 		info << "VBO view margin updated" << endl;

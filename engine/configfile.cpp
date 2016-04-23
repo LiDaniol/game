@@ -113,7 +113,7 @@ void Config::open(const std::string &file)
 	}
 }
 
-StringValue Config::getStringValue(const std::string& key, int number, const std::string& ifnone)
+StringValue Config::getStringValue(const std::string &key, int number, const std::string &ifnone)
 {
 	for (auto& i : stringDictionary)
 		if (key == i.first && !number--) return i.second;
@@ -121,7 +121,7 @@ StringValue Config::getStringValue(const std::string& key, int number, const std
 	return StringValue{ifnone};
 }
 
-StringArrayValue Config::getArrayValue(const std::string& key, int number, const StringArrayValue& ifnone)
+StringArrayValue Config::getArrayValue(const std::string &key, int number, const StringArrayValue &ifnone)
 {
 	for (auto& i : arrayDictionary)
 		if (key == i.first && !number--) return i.second;

@@ -12,7 +12,7 @@ int main()
 
 	// Import resources
 	engine.generateTileConfig("tile"); // Import tiles from config
-	engine.importSpritesConfig("sprite");
+	engine.importSpritesConfig("sprite", "spritelayer");
 	engine.buildMeta();
 
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());

@@ -22,7 +22,7 @@ public:
 	void generateTileConfig(const std::string& key);
 	MetaTexture* getMetaTexture() const;
 
-	void importSpritesConfig(const std::string &key);
+	void importSpritesConfig(const std::string& texkey, const std::string& layerkey);
 
 	void buildMeta();
 
@@ -60,8 +60,9 @@ private:
 
 		/* Resource managment */
 	std::vector<sf::Texture> texlist;
+	std::vector<SpriteData> sprdata;
 
-	void importTextureConfig(const std::string& key);
+	std::vector<std::pair<std::vector<StringValue>, int>> importTextureConfig(const std::string &key); // Returns extra key data + the texture id assigned on the metatexture
 };
 
 #endif
