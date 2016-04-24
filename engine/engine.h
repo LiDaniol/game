@@ -25,6 +25,7 @@ public:
 	MetaTexture* getMetaTexture() const;
 
 	void importSpritesConfig(const std::string& texkey, const std::string& layerkey);
+	void buildSprite(Sprite& spr, const std::string& name);
 
 	void buildMeta();
 

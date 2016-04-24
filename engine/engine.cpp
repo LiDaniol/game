@@ -49,9 +49,14 @@ void Engine::render()
 	sf::RenderStates states;
 	states.texture = &meta->getTexture();
 	map->update(view, vbomargin);
-	window.draw(*map, states);
+	//window.draw(*map, states);
 
 	drawEntities(states);
+
+	// Debug : show metatexture
+	/*sf::Sprite spr;
+	spr.setTexture(meta->getTexture());
+	window.draw(spr);*/
 
 	window.display();
 
@@ -134,6 +139,24 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 			                                                layerdata[3].parse(0),
 													        layerdata[4].parse(0),
 													        layerdata[5].parse(0)) });
+		}
+	}
+}
+
+void Engine::buildSprite(Sprite& spr, const std::string& name)
+{
+	for (auto& sprdatum : sprdata)
+	{
+		std::cout << "searching" << std::endl;
+		if (sprdatum.name == name)
+		{
+			std::cout << "name match" << std::endl;
+			for (auto& layerdatum : sprdatum.layers)
+			{
+				std::cout << "adding layer " << layerdatum.name << " with frame " << sprdatum.metaframe
+				          << " and rect {" << layerdatum.rect.left << ", " << layerdatum.rect.top << " and size " << layerdatum.rect.width << ", " << layerdatum.rect.height << "}" << std::endl;
+				spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect);
+			}
 		}
 	}
 }

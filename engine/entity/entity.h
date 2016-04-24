@@ -16,6 +16,7 @@ public:
 	void setPosition(const sf::Vector2f& newPosition);
 
 	Sprite* createSprite();
+	Sprite* createSpriteFromEngineData(const std::string& spritename);
 	Sprite* getSprite();
 
 private:

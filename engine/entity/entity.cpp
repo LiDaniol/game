@@ -25,6 +25,13 @@ Sprite* Entity::createSprite()
 	return spr;
 }
 
+Sprite* Entity::createSpriteFromEngineData(const std::string& spritename)
+{
+	spr = createSprite();
+	engine.buildSprite(*spr, spritename);
+	return spr;
+}
+
 Sprite* Entity::getSprite()
 {
 	return spr;
