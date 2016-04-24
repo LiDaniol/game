@@ -13,6 +13,8 @@ public:
 	Engine();
 	~Engine(); // @TODO : Use smart pointers to avoid using a destructor
 
+	void drawEntities(sf::RenderStates states);
+
 	bool loop();
 	void render();
 

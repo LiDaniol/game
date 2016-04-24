@@ -11,6 +11,12 @@ Engine::~Engine()
 	if (meta != nullptr) delete meta;
 }
 
+void Engine::drawEntities(sf::RenderStates states)
+{
+	for (int i = 0; i < ctx.size(); ++i)
+		window.draw(ctx[i], states);
+}
+
 bool Engine::loop()
 {
 	renderclock.restart();
@@ -44,6 +50,8 @@ void Engine::render()
 	states.texture = &meta->getTexture();
 	map->update(view, vbomargin);
 	window.draw(*map, states);
+
+	drawEntities(states);
 
 	window.display();
 

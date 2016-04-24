@@ -14,6 +14,7 @@ public:
 
 	Entity& addEntity();
 	Entity& operator[](int index);
+	int size() const;
 
 private:
 	std::vector<Entity> entities;

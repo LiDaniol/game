@@ -13,3 +13,8 @@ Entity& EntityContext::operator[](int index)
 {
 	return entities[index];
 }
+
+int EntityContext::size() const
+{
+	return entities.size();
+}

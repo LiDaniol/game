@@ -3,6 +3,11 @@
 
 Entity::Entity(Engine& e) : engine(e) {}
 
+void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	/*if (spr) */target.draw(*spr, states);
+}
+
 sf::Vector2f Entity::getPosition() const
 {
 	return position;
