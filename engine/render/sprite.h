@@ -12,6 +12,7 @@ struct LayerData
 {
 	std::string name;
 	sf::FloatRect rect;
+	sf::Vector2f offset;
 };
 
 struct SpriteData

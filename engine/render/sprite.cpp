@@ -27,9 +27,9 @@ void SpriteLayer::update(const sf::FloatRect &texRect)
 	sf::Vector2f mainpos = mainspr->getPosition() + offset;
 
 	vbo[0].position = mainpos;
-	vbo[1].position = mainpos + sf::Vector2f(texRect.width, 0);
-	vbo[2].position = mainpos + sf::Vector2f(texRect.width, texRect.height);
-	vbo[3].position = mainpos + sf::Vector2f(0, texRect.height);
+	vbo[1].position = mainpos + sf::Vector2f(rect.width, 0);
+	vbo[2].position = mainpos + sf::Vector2f(rect.width, rect.height);
+	vbo[3].position = mainpos + sf::Vector2f(0, rect.height);
 }
 
 int SpriteLayer::getFrameID() const
@@ -55,6 +55,7 @@ sf::Transform& SpriteLayer::getTransform()
 void SpriteLayer::setOffset(sf::Vector2f newOffset)
 {
 	offset = newOffset;
+	update(mainspr->getMeta().getTexRect(frameid));
 }
 
 sf::Vector2f SpriteLayer::getOffset()

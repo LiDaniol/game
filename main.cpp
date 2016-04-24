@@ -20,9 +20,9 @@ int main()
 
 	Entity& e = engine.getContext().addEntity();
 	e.setPosition(sf::Vector2f(3.f, 3.f));
-	Sprite* spr = e.createSpriteFromEngineData("introship");
+	e.createSpriteFromEngineData("introship");
 
-	float viewx = 0.f, viewy = 0.f;
+	//float viewx = 0.f, viewy = 0.f;
 
 	while (engine.loop())
 	{

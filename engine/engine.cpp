@@ -138,7 +138,9 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 									          sf::FloatRect(layerdata[2].parse(0), // @TODO : use stof (and fix that parse method when using them)
 			                                                layerdata[3].parse(0),
 													        layerdata[4].parse(0),
-													        layerdata[5].parse(0)) });
+													        layerdata[5].parse(0)),
+			                                  sf::Vector2f(layerdata[6].parse(0),
+											               layerdata[7].parse(0))});
 		}
 	}
 }
@@ -146,9 +148,16 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 void Engine::buildSprite(Sprite& spr, const std::string& name)
 {
 	for (auto& sprdatum : sprdata)
+	{
 		if (sprdatum.name == name)
+		{
 			for (auto& layerdatum : sprdatum.layers)
-				spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect);
+			{
+				SpriteLayer& layer = spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect);
+				layer.setOffset(layerdatum.offset);
+			}
+		}
+	}
 }
 
 void Engine::buildMeta()
