@@ -1,5 +1,10 @@
 #include "tilemap.h"
 
+int& TilemapProxy::operator[](int index) const
+{
+	return at[index];
+}
+
 Tilemap::Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex) : wid(wid), hei(hei), tilesize(tilesize), metatexture(tex), tiles(wid * hei) {
 	for (auto& i : tiles)
 		i = rand() % 5 - 1;
@@ -40,9 +45,19 @@ int Tilemap::getTilesize() const
 	return tilesize;
 }
 
-int& Tilemap::at(sf::Vector2u pos)
+TilemapProxy Tilemap::operator[](int index)
+{
+	return TilemapProxy{&tiles[index * wid]};
+}
+
+int& Tilemap::atVec(sf::Vector2u pos)
 {
 	return tiles[pos.x + (pos.y * wid)];
+}
+
+int& Tilemap::atRaw(int at)
+{
+	return tiles[at];
 }
 
 sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const

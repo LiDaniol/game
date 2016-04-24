@@ -30,7 +30,7 @@ bool Engine::loop()
 		if (ev.type == sf::Event::Resized)
 		{
 			sf::View oldview = window.getView();
-			oldview.setSize(window.getSize().x, window.getSize().y);
+			oldview.setSize(window.getSize().x, window.getSize().y); // @TODO recenter view
 			view = oldview;
 			window.setView(view);
 		}

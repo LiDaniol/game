@@ -11,12 +11,20 @@
 #include "../render/metatexture.h"
 #include "../extra/mathutils.h"
 
+struct TilemapProxy // Proxy for the operator[] method of Tilemap
+{
+	int& operator[](int index) const;
+	int* at;
+};
+
 class Tilemap : public sf::Drawable
 {
 public:
 	Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex);
 
-	int& at(sf::Vector2u pos);
+	TilemapProxy operator[](int index);
+	int& atVec(sf::Vector2u pos);
+	int& atRaw(int at);
 
 	void update(const sf::View& view, int margin = DEFAULT_VBOMARGIN); // margin is in tiles
 
@@ -33,7 +41,7 @@ private:
 	sf::IntRect vboview;
 
 	bool wasTilemapChanged = false;
-	std::vector<int> tiles; // tilemap
+	std::vector<int> tiles; // tile IDs
 };
 
 #endif
