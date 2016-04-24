@@ -13,7 +13,7 @@
 struct StringValue
 {
 	template<typename returnType>
-	returnType parse(returnType defaultValue, returnType (&f)(const std::string&, std::size_t*, int))
+	returnType parse(returnType defaultValue, returnType (&f)(const std::string&, std::size_t*, int) = std::stoi)
 	{
 		try
 		{

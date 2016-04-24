@@ -129,10 +129,10 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 
 		if (data)
 		{
-			data->metarects.push_back(sf::FloatRect(layerdata[2].parse(0, std::stoi), // @TODO : use stof (and fix that parse method when using them)
-			                                        layerdata[3].parse(0, std::stoi),
-													layerdata[4].parse(0, std::stoi),
-													layerdata[5].parse(0, std::stoi)));
+			data->metarects.push_back(sf::FloatRect(layerdata[2].parse(0), // @TODO : use stof (and fix that parse method when using them)
+			                                        layerdata[3].parse(0),
+													layerdata[4].parse(0),
+													layerdata[5].parse(0)));
 		}
 	}
 }
@@ -161,7 +161,7 @@ void Engine::loadConfig(const std::string& file)
 	{
 		fullscreen = true;
 
-		int wid = conf.getStringValue("fwidth", 0).parse(0, std::stoi), hei = conf.getStringValue("fheight", 0).parse(0, std::stoi);
+		int wid = conf.getStringValue("fwidth", 0).parse(0), hei = conf.getStringValue("fheight", 0).parse(0);
 		task << "Switching to fullscreen mode... ";
 
 		sf::VideoMode mode;
@@ -177,14 +177,14 @@ void Engine::loadConfig(const std::string& file)
 	}
 	else
 	{
-		int wid = conf.getStringValue("wwidth", 0).parse(800, std::stoi), hei = conf.getStringValue("wheight", 0).parse(600, std::stoi);
+		int wid = conf.getStringValue("wwidth", 0).parse(800), hei = conf.getStringValue("wheight", 0).parse(600);
 
 		task << "Window size update... ";
 		window.setSize(sf::Vector2u(wid, hei));
 		std::cout << "Done." << endl;
 	}
 
-	vbomargin = conf.getStringValue("vbomargin", 0).parse(16, std::stoi);
+	vbomargin = conf.getStringValue("vbomargin", 0).parse(16);
 	if (vbomargin != DEFAULT_VBOMARGIN)
 	{
 		info << "VBO view margin updated" << endl;
