@@ -70,9 +70,7 @@ Sprite::Sprite(MetaTexture& tex) : tex(tex) {}
 void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	for (const SpriteLayer& layer : layers)
-	{
 		target.draw(layer, states);
-	}
 }
 
 SpriteLayer& Sprite::addSpriteLayer(int frameid, sf::FloatRect rect)

@@ -1,8 +1,11 @@
 #include "entitycontext.h"
+#include "../engine.h"
+
+EntityContext::EntityContext(Engine& e) : engine(e) {}
 
 Entity& EntityContext::addEntity()
 {
-	entities.push_back(Entity());
+	entities.push_back(Entity(engine));
 	return entities[entities.size() - 1];
 }
 

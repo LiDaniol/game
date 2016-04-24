@@ -1,6 +1,6 @@
 #include "engine.h"
 
-Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine")
+Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine"), ctx(*this)
 {
 	task << "Initializing engine..." << endl;
 }
