@@ -26,7 +26,7 @@ int main()
 
 	while (engine.loop())
 	{
-		sf::RenderWindow& win = engine.getWindow();
+		/*sf::RenderWindow& win = engine.getWindow();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			++viewx;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -38,7 +38,7 @@ int main()
 			--viewy;
 
 		sf::View view(sf::FloatRect(viewx, viewy, win.getSize().x, win.getSize().y));
-		engine.updateView(view);
+		engine.updateView(view);*/
 
 		engine.render();
 	}

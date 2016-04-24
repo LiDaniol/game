@@ -49,7 +49,7 @@ void Engine::render()
 	sf::RenderStates states;
 	states.texture = &meta->getTexture();
 	map->update(view, vbomargin);
-	//window.draw(*map, states);
+	window.draw(*map, states);
 
 	drawEntities(states);
 
@@ -89,7 +89,7 @@ std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfi
 		info << ' ' << texdata[0].value << endl;
 		texlist[i + firstit].loadFromFile(texdata[0].value);
 
-		remainingMatches[i].second = i; // assign texture ID
+		remainingMatches[i].second = i + firstit; // assign texture ID
 		remainingMatches[i].first.resize(texdata.size() - 1);
 		for (unsigned int j = 1; j < texdata.size(); ++j)
 		{
