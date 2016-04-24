@@ -2,11 +2,10 @@
 
 /**** SpriteLayer ****/
 
-SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : mainspr(spr), offset(offset), rect(rect), frameid(frameid)
+SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : mainspr(spr), offset(offset), rect(rect), frameid(frameid), vbo(sf::Quads, 4)
 {
 	sf::FloatRect sprrect = spr->getMeta().getTexRect(frameid);
 
-	vbo.resize(4);
 	update(rect);
 
 	vbo[0].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top); // Top left
@@ -69,7 +68,6 @@ Sprite::Sprite(MetaTexture& tex) : tex(tex) {}
 
 void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	std::cout << "machin" << std::endl;
 	for (const SpriteLayer& layer : layers)
 		target.draw(layer, states);
 }

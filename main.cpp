@@ -18,16 +18,17 @@ int main()
 
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
 
-	Entity e = engine.getContext().addEntity();
+	Entity& e = engine.getContext().addEntity();
+	e.setPosition(sf::Vector2f(3.f, 3.f));
 	Sprite* spr = e.createSprite();
 	spr->addSpriteLayer(4, sf::FloatRect(0, 0, 300, 100)); // random shizzle for now
 
 	while (engine.loop())
 	{
-		sf::RenderWindow& win = engine.getWindow();
+		/*sf::RenderWindow& win = engine.getWindow();
 		sf::Vector2i mousepos = sf::Mouse::getPosition(win);
-		sf::View view(sf::FloatRect(mousepos.x, mousepos.y, win.getSize().x, win.getSize().y));
-		engine.updateView(view);
+		sf::View view(sf::FloatRect(mousepos.x, mousepos.y, win.getSize().x, win.getSize().y));*/
+		//engine.updateView(view);
 
 		engine.render();
 	}
