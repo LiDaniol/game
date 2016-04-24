@@ -12,8 +12,6 @@ SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vecto
 	vbo[1].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width,  sprrect.top + rect.top); // Top right
 	vbo[2].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width, sprrect.top + rect.top + rect.height); // Bottom right
 	vbo[3].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top + rect.height); // Bottom left
-
-	std::cout << vbo[0].texCoords.x << ", " << vbo[0].texCoords.y << std::endl;
 }
 
 void SpriteLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
