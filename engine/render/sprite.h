@@ -8,9 +8,15 @@
 
 class Sprite;
 
+struct LayerData
+{
+	std::string name;
+	sf::FloatRect rect;
+};
+
 struct SpriteData
 {
-	std::vector<sf::FloatRect> metarects;
+	std::vector<LayerData> layers;
 	std::string name;
 	int metaframe = 0;
 };

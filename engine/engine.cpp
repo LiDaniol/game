@@ -129,10 +129,11 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 
 		if (data)
 		{
-			data->metarects.push_back(sf::FloatRect(layerdata[2].parse(0), // @TODO : use stof (and fix that parse method when using them)
-			                                        layerdata[3].parse(0),
-													layerdata[4].parse(0),
-													layerdata[5].parse(0)));
+			data->layers.push_back(LayerData{ layerdata[1].value,
+									          sf::FloatRect(layerdata[2].parse(0), // @TODO : use stof (and fix that parse method when using them)
+			                                                layerdata[3].parse(0),
+													        layerdata[4].parse(0),
+													        layerdata[5].parse(0)) });
 		}
 	}
 }
