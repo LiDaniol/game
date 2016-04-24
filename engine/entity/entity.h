@@ -12,18 +12,18 @@ class Entity : public sf::Drawable
 public:
 	Entity(Engine& e);
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& newPosition);
 
-	Sprite& createSprite();
+	Sprite* createSprite();
 	Sprite* getSprite();
 
 private:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
 	sf::Vector2f position;
 
-	Sprite* spr;
+	Sprite* spr = nullptr;
 
 	Engine& engine;
 };

@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <iostream>
 #include "../metatexture.h"
 
 class Sprite;
@@ -50,8 +51,6 @@ class Sprite : public sf::Drawable
 public:
 	Sprite(MetaTexture& tex);
 
-	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-
 	SpriteLayer& addSpriteLayer(int frameid, sf::FloatRect rect);
 	SpriteLayer& operator[](int index);
 
@@ -63,6 +62,8 @@ public:
 	sf::Transform& getTransform();
 
 private:
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
 	sf::Vector2f position;
 
 	std::vector<SpriteLayer> layers;

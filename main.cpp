@@ -19,8 +19,8 @@ int main()
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
 
 	Entity e = engine.getContext().addEntity();
-	Sprite& spr = e.createSprite();
-	spr.addSpriteLayer(4, sf::FloatRect(0, 0, 300, 100)); // random shizzle for now
+	Sprite* spr = e.createSprite();
+	spr->addSpriteLayer(4, sf::FloatRect(0, 0, 300, 100)); // random shizzle for now
 
 	while (engine.loop())
 	{

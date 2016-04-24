@@ -69,6 +69,7 @@ Sprite::Sprite(MetaTexture& tex) : tex(tex) {}
 
 void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
+	std::cout << "machin" << std::endl;
 	for (const SpriteLayer& layer : layers)
 		target.draw(layer, states);
 }

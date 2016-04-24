@@ -116,7 +116,7 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 	for (unsigned int i = 0; i < resourceCount; ++i)
 	{
 		std::vector<StringValue> layerdata = conf.getArrayValue(layerkey, i).values;
-		SpriteData* data;
+		SpriteData* data = nullptr;
 
 		for (unsigned int j = 0; j < sprdata.size(); ++j)
 		{
