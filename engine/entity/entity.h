@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "sprite.h"
+#include "../render/sprite.h"
 
 class Engine;
 

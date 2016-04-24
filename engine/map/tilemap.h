@@ -8,8 +8,8 @@
 #include <thread>
 #include <stdlib.h>
 #include <iostream>
-#include "metatexture.h"
-#include "mathutils.h"
+#include "../render/metatexture.h"
+#include "../extra/mathutils.h"
 
 class Tilemap : public sf::Drawable
 {

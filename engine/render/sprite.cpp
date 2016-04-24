@@ -2,7 +2,7 @@
 
 /**** SpriteLayer ****/
 
-SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : mainspr(spr), offset(offset), rect(rect), frameid(frameid), vbo(sf::Quads, 4)
+SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : vbo(sf::Quads, 4), mainspr(spr), offset(offset), rect(rect), frameid(frameid)
 {
 	sf::FloatRect sprrect = spr->getMeta().getTexRect(frameid);
 

@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
-#include "../metatexture.h"
+#include "metatexture.h"
 
 class Sprite;
 

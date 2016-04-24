@@ -3,8 +3,8 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "tilemap.h"
-#include "configfile.h"
+#include "map/tilemap.h"
+#include "io/configfile.h"
 #include "entity/entitycontext.h"
 
 class Engine
