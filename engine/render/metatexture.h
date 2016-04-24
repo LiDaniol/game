@@ -18,7 +18,7 @@ public:
 
 private:
 	sf::RenderTexture tex;
-	std::vector<sf::FloatRect> tiles;
+	std::vector<sf::FloatRect> frames;
 };
 
 #endif

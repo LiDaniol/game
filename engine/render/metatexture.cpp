@@ -1,4 +1,6 @@
 #include "metatexture.h"
+#include "binpack.h"
+#include "../io/logger.h"
 
 MetaTexture::MetaTexture() {}
 
@@ -9,27 +11,27 @@ MetaTexture::MetaTexture(std::vector<sf::Texture>& textures)
 
 void MetaTexture::create(std::vector<sf::Texture>& textures)
 {
-	// @TODO optimization - make a true packing algorithm
-	sf::Vector2u totalsize;
+	frames.resize(textures.size());
 	for (unsigned int i = 0; i < textures.size(); ++i)
 	{
-		sf::Vector2u texsize = textures[i].getSize();
-		totalsize.x += texsize.x;
-		if (texsize.y > totalsize.y) totalsize.y = texsize.y;
+		frames[i] = sf::FloatRect(0, 0, textures[i].getSize().x, textures[i].getSize().y);
 	}
 
-	tex.create(totalsize.x, totalsize.y);
-
-	for (unsigned int i = 0, currentx = 0; i < textures.size(); ++i)
+	int maxSize = sf::Texture::getMaximumSize();
+	PowerOfTwoBinPacker packer(maxSize, maxSize);
+	if (!packer.process(frames))
 	{
-		sf::Sprite spr;
-		spr.setTexture(textures[i]);
-		spr.setPosition(currentx, 0);
+		err << "Failed generating metatexture. Your graphics card may have a too low maximal texture size." << endl;
+	}
 
-		tex.draw(spr);
+	tex.create(packer.width(), packer.height());
 
-		tiles.push_back(sf::FloatRect(currentx, 0, textures[i].getSize().x, textures[i].getSize().y));
-		currentx += textures[i].getSize().x;
+	for (unsigned int i = 0; i < textures.size(); ++i)
+	{
+		sf::Sprite currentTex;
+		currentTex.setTexture(textures[i]);
+		currentTex.setPosition(frames[i].left, frames[i].top);
+		tex.draw(currentTex);
 	}
 
 	tex.display();
@@ -37,7 +39,7 @@ void MetaTexture::create(std::vector<sf::Texture>& textures)
 
 sf::FloatRect& MetaTexture::getTexRect(unsigned int index)
 {
-	return tiles[index];
+	return frames[index];
 }
 
 sf::RenderTexture& MetaTexture::getMetaTexture()
