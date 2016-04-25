@@ -73,9 +73,9 @@ void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		target.draw(layer, states);
 }
 
-SpriteLayer& Sprite::addSpriteLayer(int frameid, sf::FloatRect rect)
+SpriteLayer& Sprite::addSpriteLayer( int frameid, sf::FloatRect rect, sf::Vector2f offset)
 {
-	layers.push_back(SpriteLayer(this, frameid, rect));
+	layers.push_back(SpriteLayer(this, frameid, rect, offset));
 	return layers[layers.size() - 1];
 }
 

@@ -58,7 +58,7 @@ class Sprite : public sf::Drawable
 public:
 	Sprite(MetaTexture& tex);
 
-	SpriteLayer& addSpriteLayer(int frameid, sf::FloatRect rect);
+	SpriteLayer& addSpriteLayer(int frameid, sf::FloatRect rect, sf::Vector2f offset);
 	SpriteLayer& operator[](int index);
 
 	MetaTexture& getMeta();

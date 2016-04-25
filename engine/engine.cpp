@@ -148,16 +148,9 @@ void Engine::importSpritesConfig(const std::string& texkey, const std::string& l
 void Engine::buildSprite(Sprite& spr, const std::string& name)
 {
 	for (auto& sprdatum : sprdata)
-	{
 		if (sprdatum.name == name)
-		{
 			for (auto& layerdatum : sprdatum.layers)
-			{
-				SpriteLayer& layer = spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect);
-				layer.setOffset(layerdatum.offset);
-			}
-		}
-	}
+				SpriteLayer& layer = spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect, layerdatum.offset);
 }
 
 void Engine::buildMeta()
