@@ -6,7 +6,7 @@ SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vecto
 {
 	sf::FloatRect sprrect = spr->getMeta().getTexRect(frameid);
 
-	//update(rect);
+	update(rect);
 
 	vbo[0].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top); // Top left
 	vbo[1].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width,  sprrect.top + rect.top); // Top right
