@@ -31,7 +31,7 @@ bool Engine::loop()
 		{
 			sf::View oldview = window.getView();
 			view = oldview;
-			view.setSize(window.getSize().x, window.getSize().y);
+			view.setSize(ev.size.width, ev.size.height);
 			view.setCenter(sf::Vector2f(static_cast<int>(oldview.getCenter().x), static_cast<int>(oldview.getCenter().y)));
 			window.setView(view);
 		}
@@ -151,7 +151,7 @@ void Engine::buildSprite(Sprite& spr, const std::string& name)
 	for (auto& sprdatum : sprdata)
 		if (sprdatum.name == name)
 			for (auto& layerdatum : sprdatum.layers)
-				SpriteLayer& layer = spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect, layerdatum.offset);
+				spr.addSpriteLayer(sprdatum.metaframe, layerdatum.rect, layerdatum.offset);
 }
 
 void Engine::buildMeta()
