@@ -22,11 +22,11 @@ int main()
 	e.setPosition(sf::Vector2f(3.f, 3.f));
 	e.createSpriteFromEngineData("introship");
 
-	//float viewx = 0.f, viewy = 0.f;
+	float viewx = 0.f, viewy = 0.f;
 
 	while (engine.loop())
 	{
-		/*sf::RenderWindow& win = engine.getWindow();
+		sf::RenderWindow& win = engine.getWindow();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			++viewx;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -37,8 +37,9 @@ int main()
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 			--viewy;
 
-		sf::View view(sf::FloatRect(viewx, viewy, win.getSize().x, win.getSize().y));
-		engine.updateView(view);*/
+		sf::View view(sf::FloatRect(0, 0, win.getSize().x, win.getSize().y));
+		view.setCenter(viewx, viewy);
+		engine.updateView(view);
 
 		engine.render();
 	}
