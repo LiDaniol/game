@@ -8,8 +8,10 @@ class BoundingBox
 public:
 	BoundingBox(sf::FloatRect shape);
 
-	sf::FloatRect getRect();
+	sf::FloatRect getRect() const;
 	void setRect(sf::FloatRect newRect);
+
+	bool collides(const BoundingBox& other);
 
 private:
 	sf::FloatRect rect;
