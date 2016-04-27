@@ -41,17 +41,17 @@ void Engine::render()
 {
 	window.clear(sf::Color::Black);
 
-	/*sf::RenderStates states;
+	sf::RenderStates states;
 	states.texture = &meta->getTexture();
 	map->update(view, vbomargin);
 	window.draw(*map, states);
 
-	drawEntities(states);*/
+	drawEntities(states);
 
 	// Debug : show metatexture
-	sf::Sprite spr;
+	/*sf::Sprite spr;
 	spr.setTexture(meta->getTexture());
-	window.draw(spr);
+	window.draw(spr);*/
 
 	window.display();
 
@@ -213,7 +213,10 @@ void Engine::updateView(const sf::View& newView, int preferredWidth)
 
 	// Determine best zoom level, if at least a tilemap is present
 	if (map)
-		view.zoom(1.f / static_cast<int>( view.getSize().x / (preferredWidth * map->getTilesize()) ));
+	{
+		int zoomlevel = static_cast<int>(view.getSize().x / (preferredWidth * map->getTilesize()));
+		view.setSize(static_cast<int>(view.getSize().x / zoomlevel / 2) * 2, static_cast<int>(view.getSize().y / zoomlevel / 2) * 2);
+	}
 
 	window.setView(view);
 }
