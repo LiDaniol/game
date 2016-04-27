@@ -36,3 +36,14 @@ std::unique_ptr<Sprite>& Entity::getSprite()
 {
 	return spr;
 }
+
+std::unique_ptr<BoundingBox>& Entity::createBoundingBox(sf::FloatRect rect)
+{
+	box = std::make_unique<BoundingBox>(rect);
+	return box;
+}
+
+std::unique_ptr<BoundingBox>& Entity::getBoundingBox()
+{
+	return box;
+}

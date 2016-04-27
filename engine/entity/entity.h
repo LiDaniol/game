@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "../render/sprite.h"
+#include "../collision/collision.h"
 
 class Engine;
 
@@ -19,12 +20,16 @@ public:
 	std::unique_ptr<Sprite>& createSpriteFromEngineData(const std::string& spritename);
 	std::unique_ptr<Sprite>& getSprite();
 
+	std::unique_ptr<BoundingBox>& createBoundingBox(sf::FloatRect rect);
+	std::unique_ptr<BoundingBox>& getBoundingBox();
+
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	sf::Vector2f position;
 
 	std::unique_ptr<Sprite> spr;
+	std::unique_ptr<BoundingBox> box;
 
 	Engine& engine;
 };
