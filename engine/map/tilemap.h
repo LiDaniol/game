@@ -5,11 +5,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include <thread>
-#include <stdlib.h>
 #include <iostream>
 #include "../render/metatexture.h"
 #include "../extra/mathutils.h"
+#include "../io/configfile.h"
+#include "tile.h"
 
 struct TilemapProxy // Proxy for the operator[] method of Tilemap
 {
@@ -21,6 +21,9 @@ class Tilemap : public sf::Drawable
 {
 public:
 	Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex);
+
+	void loadFromFile(const std::string& confname);
+	int colorMatch(const sf::Color& col);
 
 	TilemapProxy operator[](int index);
 	int& atVec(sf::Vector2u pos);
@@ -40,8 +43,10 @@ private:
 
 	sf::IntRect vboview;
 
+	std::vector<Tile> tileList;
+
 	bool wasTilemapChanged = false;
-	std::vector<int> tiles; // tile IDs
+	std::vector<int> map; // tile IDs
 };
 
 #endif

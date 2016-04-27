@@ -49,8 +49,8 @@ public:
 
 	void open(const std::string& file);
 
-	StringValue getStringValue(const std::string &key, int number, const std::string &ifnone = "");
-	StringArrayValue getArrayValue(const std::string &key, int number, const StringArrayValue &ifnone = StringArrayValue());
+	StringValue getStringValue(const std::string &key, int number = 0, const std::string &ifnone = "");
+	StringArrayValue getArrayValue(const std::string &key, int number = 0, const StringArrayValue &ifnone = StringArrayValue());
 
 	size_t getCountString(const std::string &key);
 	size_t getCountArray(const std::string &key);

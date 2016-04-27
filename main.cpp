@@ -17,6 +17,7 @@ int main()
 	engine.buildMeta();
 
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
+	engine.getTilemap()->loadFromFile("maptest.conf");
 
 	Entity& e = engine.getContext().addEntity();
 	e.setPosition(sf::Vector2f(3.f, 3.f));

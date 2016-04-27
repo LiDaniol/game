@@ -5,9 +5,35 @@ int& TilemapProxy::operator[](int index) const
 	return at[index];
 }
 
-Tilemap::Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex) : wid(wid), hei(hei), tilesize(tilesize), metatexture(tex), tiles(wid * hei) {
-	for (auto& i : tiles)
-		i = rand() % 5 - 1;
+Tilemap::Tilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex) : wid(wid), hei(hei), tilesize(tilesize), metatexture(tex), map(wid * hei) { }
+
+void Tilemap::loadFromFile(const std::string& confname)
+{
+	vbo.clear();
+
+	Config cfg;
+	cfg.open(confname);
+
+	sf::Image imgmap;
+	imgmap.loadFromFile(cfg.getStringValue("mapfile").value);
+
+	sf::Vector2u mapsize = imgmap.getSize();
+
+	wid = mapsize.x; hei = mapsize.y;
+
+	for (unsigned int x = 0; x < imgmap.getSize().x; ++x)
+	for (unsigned int y = 0; y < imgmap.getSize().y; ++y)
+	{
+		map[x + (y * wid)] = colorMatch(imgmap.getPixel(x, y));
+	}
+}
+
+int Tilemap::colorMatch(const sf::Color &col)
+{
+	for (unsigned int i = 0; i < tileList.size(); ++i)
+		if (col == tileList[i].col) return i;
+
+	return -1;
 }
 
 void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -47,17 +73,17 @@ int Tilemap::getTilesize() const
 
 TilemapProxy Tilemap::operator[](int index)
 {
-	return TilemapProxy{&tiles[index * wid]};
+	return TilemapProxy{&map[index * wid]};
 }
 
 int& Tilemap::atVec(sf::Vector2u pos)
 {
-	return tiles[pos.x + (pos.y * wid)];
+	return map[pos.x + (pos.y * wid)];
 }
 
 int& Tilemap::atRaw(int at)
 {
-	return tiles[at];
+	return map[at];
 }
 
 sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const
@@ -69,14 +95,14 @@ sf::VertexArray Tilemap::buildVertexArray(const sf::IntRect& rect) const
 	{
 		const unsigned int vloc = (xl + (yl * rect.width)) * 4, // VBO location
 						   rloc = (x + (y * wid)); // Tileset location
-		if (tiles[rloc] != -1) // air
+		if (map[rloc] != -1) // air
 		{
 			vbo[vloc].position     = sf::Vector2f(x * tilesize,       y * tilesize);
 			vbo[vloc + 1].position = sf::Vector2f((x + 1) * tilesize, y * tilesize);
 			vbo[vloc + 2].position = sf::Vector2f((x + 1) * tilesize, (y + 1) * tilesize);
 			vbo[vloc + 3].position = sf::Vector2f(x * tilesize,       (y + 1) * tilesize);
 
-			const sf::FloatRect texrect = metatexture.getTexRect(tiles[rloc]);
+			const sf::FloatRect texrect = metatexture.getTexRect(map[rloc]);
 			vbo[vloc].texCoords     = sf::Vector2f(texrect.left, texrect.top);
 			vbo[vloc + 1].texCoords = sf::Vector2f(texrect.left + texrect.width, texrect.top);
 			vbo[vloc + 2].texCoords = sf::Vector2f(texrect.left + texrect.width, texrect.top + texrect.height);
