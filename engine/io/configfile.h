@@ -1,5 +1,6 @@
 #ifndef GAME_CONFIGFILE_H
 #define GAME_CONFIGFILE_H
+// @TODO : Fix the cancer concentrated in this piece of code
 
 #include <string>
 #include <fstream>
