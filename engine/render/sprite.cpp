@@ -2,11 +2,11 @@
 
 /**** SpriteLayer ****/
 
-SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : vbo(sf::Quads, 4), mainspr(spr), offset(offset), rect(rect), frameid(frameid)
+SpriteLayer::SpriteLayer(Sprite &spr, int frameid, sf::FloatRect rect, sf::Vector2f offset) : vbo(sf::Quads, 4), mainspr(spr), offset(offset), rect(rect), frameid(frameid)
 {
-	sf::FloatRect sprrect = spr->getMeta().getTexRect(frameid);
+	sf::FloatRect sprrect = spr.getMeta().getTexRect(frameid);
 
-	update(rect);
+	update();
 
 	vbo[0].texCoords = sf::Vector2f(sprrect.left + rect.left, sprrect.top + rect.top); // Top left
 	vbo[1].texCoords = sf::Vector2f(sprrect.left + rect.left + rect.width,  sprrect.top + rect.top); // Top right
@@ -16,15 +16,15 @@ SpriteLayer::SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vecto
 
 void SpriteLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform = transform * mainspr->getTransform();
-	states.texture = &mainspr->getMeta().getTexture();
+	states.transform = transform * mainspr.getTransform();
+	states.texture = &mainspr.getMeta().getTexture();
 
 	target.draw(vbo, states);
 }
 
-void SpriteLayer::update(const sf::FloatRect& texRect)
+void SpriteLayer::update()
 {
-	sf::Vector2f mainpos = sf::Vector2f(mainspr->getPosition().x, mainspr->getPosition().y) + offset;
+	sf::Vector2f mainpos = sf::Vector2f(mainspr.getPosition().x, mainspr.getPosition().y) + offset;
 
 	vbo[0].position = mainpos;
 	vbo[1].position = mainpos + sf::Vector2f(rect.width, 0);
@@ -55,7 +55,7 @@ sf::Transform& SpriteLayer::getTransform()
 void SpriteLayer::setOffset(sf::Vector2f newOffset)
 {
 	offset = newOffset;
-	update(mainspr->getMeta().getTexRect(frameid));
+	update();
 }
 
 sf::Vector2f SpriteLayer::getOffset()
@@ -73,9 +73,9 @@ void Sprite::draw(sf::RenderTarget &target, sf::RenderStates states) const
 		target.draw(layer, states);
 }
 
-SpriteLayer& Sprite::addSpriteLayer( int frameid, sf::FloatRect rect, sf::Vector2f offset)
+SpriteLayer& Sprite::addSpriteLayer(int frameid, sf::FloatRect rect, sf::Vector2f offset)
 {
-	layers.push_back(SpriteLayer(this, frameid, rect, offset));
+	layers.push_back(SpriteLayer(*this, frameid, rect, offset));
 	return layers[layers.size() - 1];
 }
 
@@ -93,7 +93,7 @@ void Sprite::setPosition(sf::Vector2f pos)
 {
 	position = pos;
 	for (SpriteLayer& i : layers)
-		i.update(tex.getTexRect(i.getFrameID()));
+		i.update();
 }
 
 sf::Vector2f Sprite::getPosition() const

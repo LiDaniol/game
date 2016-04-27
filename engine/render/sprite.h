@@ -25,11 +25,11 @@ struct SpriteData
 class SpriteLayer : public sf::Drawable
 {
 public:
-	SpriteLayer(Sprite* spr, int frameid, sf::FloatRect rect, sf::Vector2f offset = sf::Vector2f(0.f, 0.f));
+	SpriteLayer(Sprite& spr, int frameid, sf::FloatRect rect, sf::Vector2f offset = sf::Vector2f(0.f, 0.f));
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	void update(const sf::FloatRect &texRect);
+	void update();
 
 	void setOffset(sf::Vector2f offset); // Offset from original sprite
 	sf::Vector2f getOffset();
@@ -44,7 +44,7 @@ private:
 	sf::VertexArray vbo;
 	sf::Transform transform;
 
-	Sprite* mainspr;
+	Sprite& mainspr;
 
 	sf::Vector2f offset; // Offset from main sprite
 
