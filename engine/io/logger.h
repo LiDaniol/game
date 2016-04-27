@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 class Logger
 {
@@ -30,6 +31,28 @@ private:
 	std::string prefix;
 	Logger logger;
 };
+
+/*class Task
+{
+public:
+	template<typename T>
+	Task& operator<<(const T& x)
+	{
+		std::cout << x;
+		return *this;
+	}
+
+	enum TaskEndTypes
+	{
+		SUCCESS,
+		FAILURE
+	};
+
+	void start();
+	void end(TaskEndTypes endtype = SUCCESS);
+private:
+	std::chrono::time_point<std::chrono::system_clock> startpoint;
+};*/
 
 extern BaseLogger info;
 extern BaseLogger warn;

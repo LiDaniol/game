@@ -1,9 +1,6 @@
 #include "engine.h"
 
-Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine"), ctx(*this)
-{
-	task << "Initializing engine..." << endl;
-}
+Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine"), ctx(*this) {}
 
 void Engine::drawEntities(sf::RenderStates states)
 {
@@ -76,7 +73,7 @@ std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfi
 
 	std::vector<std::pair<std::vector<StringValue>, int>> remainingMatches(resourceCount); // Extra config key data
 
-	task << "Loading texture batch with key '" << key << "'..." << endl;
+	task << "Loading texture batch with key '" << key << endl;
 
 	for (unsigned int i = 0; i < resourceCount; ++i)
 	{
@@ -183,16 +180,11 @@ void Engine::loadConfig(const std::string& file)
 
 		window.close();
 		window.create(mode, "", sf::Style::Fullscreen);
-
-		std::cout << "Done." << endl;
 	}
 	else
 	{
 		int wid = conf.getStringValue("wwidth", 0).parse(800), hei = conf.getStringValue("wheight", 0).parse(600);
-
-		task << "Window size update... ";
 		window.setSize(sf::Vector2u(wid, hei));
-		std::cout << "Done." << endl;
 	}
 
 	vbomargin = conf.getStringValue("vbomargin", 0).parse(16);
