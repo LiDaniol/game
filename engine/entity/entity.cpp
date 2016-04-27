@@ -19,20 +19,20 @@ void Entity::setPosition(const sf::Vector2f& newPosition)
 	if (spr) spr->setPosition(newPosition);
 }
 
-Sprite* Entity::createSprite()
+std::unique_ptr<Sprite>& Entity::createSprite()
 {
-	spr = new Sprite(*engine.getMetaTexture());
+	spr = std::make_unique<Sprite>(*engine.getMetaTexture());
 	return spr;
 }
 
-Sprite* Entity::createSpriteFromEngineData(const std::string& spritename)
+std::unique_ptr<Sprite>& Entity::createSpriteFromEngineData(const std::string& spritename)
 {
 	createSprite();
 	engine.buildSprite(*spr, spritename);
 	return spr;
 }
 
-Sprite* Entity::getSprite()
+std::unique_ptr<Sprite>& Entity::getSprite()
 {
 	return spr;
 }

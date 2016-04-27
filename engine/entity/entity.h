@@ -15,16 +15,16 @@ public:
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& newPosition);
 
-	Sprite* createSprite();
-	Sprite* createSpriteFromEngineData(const std::string& spritename);
-	Sprite* getSprite();
+	std::unique_ptr<Sprite>& createSprite();
+	std::unique_ptr<Sprite>& createSpriteFromEngineData(const std::string& spritename);
+	std::unique_ptr<Sprite>& getSprite();
 
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	sf::Vector2f position;
 
-	Sprite* spr = nullptr;
+	std::unique_ptr<Sprite> spr;
 
 	Engine& engine;
 };
