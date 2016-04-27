@@ -29,6 +29,9 @@ public:
 	int& atVec(sf::Vector2u pos);
 	int& atRaw(int at);
 
+	std::vector<Tile> getTilelist() const;
+	void setTilelist(std::vector<Tile> newTilelist);
+
 	void update(const sf::View& view, int margin = DEFAULT_VBOMARGIN); // margin is in tiles
 
 	int getTilesize() const;

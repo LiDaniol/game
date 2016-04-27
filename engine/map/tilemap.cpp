@@ -41,6 +41,16 @@ void Tilemap::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(vbo, states);
 }
 
+std::vector<Tile> Tilemap::getTilelist() const
+{
+	return tileList;
+}
+
+void Tilemap::setTilelist(std::vector<Tile> newTilelist)
+{
+	tileList = newTilelist;
+}
+
 void Tilemap::update(const sf::View& view, int margin)
 {
 	sf::IntRect newView((view.getCenter().x - (view.getSize().x / 2.f)) / tilesize,

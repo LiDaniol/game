@@ -55,8 +55,11 @@ private:
 
 	bool fullscreen = false; // Redefining this won't change the fullscreen mode.
 
-		/* Rendering */
+		/* Map */
 	std::unique_ptr<Tilemap> map;
+	std::vector<Tile> tileList;
+
+		/* Rendering */
 	std::unique_ptr<MetaTexture> meta = nullptr;
 
 	int vbomargin = 16;

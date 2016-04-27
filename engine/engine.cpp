@@ -53,7 +53,7 @@ void Engine::render()
 	window.display();
 
 	float fps = 1.f / tickTimer.restart().asSeconds();
-	deltatime = 1.f / (fps / deltatarget);
+	deltatime = (deltatime * .9f) + (.1f * (1.f / (fps / deltatarget))); // smoothed out delta time
 	if (!fullscreen && titleUpdateTimer.getElapsedTime().asSeconds() > 1)
 	{
 		window.setTitle("Game Engine - FPS : " + std::to_string(fps));
@@ -64,6 +64,7 @@ void Engine::render()
 void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
 {
 	map = std::make_unique<Tilemap>(wid, hei, tilesize, tex);
+	map->setTilelist(tileList);
 }
 
 std::unique_ptr<Tilemap>& Engine::getTilemap() { return map; }
@@ -96,7 +97,15 @@ std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfi
 
 void Engine::generateTileConfig(const std::string& key)
 {
-	importTextureConfig(key);
+	auto remainingData = importTextureConfig(key);
+
+	tileList.resize(remainingData.size());
+	for (unsigned int i = 0; i < remainingData.size(); ++i)
+	{
+		tileList[i].name = remainingData[i].first[0].value;
+		tileList[i].col = sf::Color(remainingData[i].first[1].parse(0), remainingData[i].first[2].parse(0), remainingData[i].first[3].parse(0), remainingData[i].first[4].parse(255));
+		tileList[i].frameid = remainingData[i].second;
+	}
 }
 
 void Engine::importSpritesConfig(const std::string& texkey, const std::string& layerkey)
