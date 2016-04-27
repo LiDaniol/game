@@ -29,6 +29,9 @@ public:
 
 	void buildMeta();
 
+	void setDeltaTarget(int newTarget);
+	float getDeltaTime();
+
 	void loadConfig(const std::string& conf);
 	Config& getConfig();
 
@@ -43,8 +46,8 @@ private:
 		/* Misc */
 	Config conf;
 
-	sf::Clock renderclock;
-	sf::Clock titleupdateClock;
+	sf::Clock tickTimer;
+	sf::Clock titleUpdateTimer;
 
 		/* Windowing */
 	sf::RenderWindow window;
@@ -57,6 +60,8 @@ private:
 	std::unique_ptr<MetaTexture> meta = nullptr;
 
 	int vbomargin = 16;
+	int deltatarget = 60;
+	float deltatime = 0;
 
 		/* Entities */
 	EntityContext ctx;

@@ -10,7 +10,7 @@ void Engine::drawEntities(sf::RenderStates states)
 
 bool Engine::loop()
 {
-	renderclock.restart();
+	tickTimer.restart();
 
 	sf::Event ev;
 	while (window.pollEvent(ev))
@@ -52,10 +52,12 @@ void Engine::render()
 
 	window.display();
 
-	if (!fullscreen && titleupdateClock.getElapsedTime().asSeconds() > 1)
+	float fps = 1.f / tickTimer.restart().asSeconds();
+	deltatime = 1.f / (fps / deltatarget);
+	if (!fullscreen && titleUpdateTimer.getElapsedTime().asSeconds() > 1)
 	{
-		window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
-		titleupdateClock.restart();
+		window.setTitle("Game Engine - FPS : " + std::to_string(fps));
+		titleUpdateTimer.restart();
 	}
 }
 
@@ -151,6 +153,16 @@ void Engine::buildMeta()
 	meta = std::make_unique<MetaTexture>(texlist);
 	texlist.clear();
 	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << endl;
+}
+
+void Engine::setDeltaTarget(int newTarget)
+{
+	deltatarget = newTarget;
+}
+
+float Engine::getDeltaTime()
+{
+	return deltatime;
 }
 
 std::unique_ptr<MetaTexture>& Engine::getMetaTexture() { return meta; }

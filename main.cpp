@@ -26,16 +26,17 @@ int main()
 
 	while (engine.loop())
 	{
+		float dt = engine.getDeltaTime();
 		sf::RenderWindow& win = engine.getWindow();
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-			++viewx;
+			viewx += dt;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-			--viewx;
+			viewx -= dt;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-			++viewy;
+			viewy += dt;
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-			--viewy;
+			viewy -= dt;
 
 		sf::View view(sf::FloatRect(0, 0, win.getSize().x, win.getSize().y));
 		view.setCenter(viewx, viewy);
