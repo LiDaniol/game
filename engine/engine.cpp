@@ -5,12 +5,6 @@ Engine::Engine() : window(sf::VideoMode(800, 600), "Game Engine"), ctx(*this)
 	task << "Initializing engine..." << endl;
 }
 
-Engine::~Engine()
-{
-	if (map != nullptr) delete map;
-	if (meta != nullptr) delete meta;
-}
-
 void Engine::drawEntities(sf::RenderStates states)
 {
 	for (int i = 0; i < ctx.size(); ++i)
@@ -47,33 +41,33 @@ void Engine::render()
 {
 	window.clear(sf::Color::Black);
 
-	sf::RenderStates states;
+	/*sf::RenderStates states;
 	states.texture = &meta->getTexture();
 	map->update(view, vbomargin);
 	window.draw(*map, states);
 
-	drawEntities(states);
+	drawEntities(states);*/
 
 	// Debug : show metatexture
-	/*sf::Sprite spr;
+	sf::Sprite spr;
 	spr.setTexture(meta->getTexture());
-	window.draw(spr);*/
+	window.draw(spr);
 
 	window.display();
 
-	if (!fullscreen && globalclock.getElapsedTime().asSeconds() > 1)
+	if (!fullscreen && titleupdateClock.getElapsedTime().asSeconds() > 1)
 	{
 		window.setTitle("Game Engine - FPS : " + std::to_string(1.f / renderclock.restart().asSeconds()));
-		globalclock.restart();
+		titleupdateClock.restart();
 	}
 }
 
 void Engine::addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex)
 {
-	map = new Tilemap(wid, hei, tilesize, tex);
+	map = std::make_unique<Tilemap>(wid, hei, tilesize, tex);
 }
 
-Tilemap* Engine::getTilemap() const { return map; }
+std::unique_ptr<Tilemap>& Engine::getTilemap() { return map; }
 
 std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfig(const std::string &key)
 {
@@ -157,12 +151,12 @@ void Engine::buildSprite(Sprite& spr, const std::string& name)
 void Engine::buildMeta()
 {
 	task << "Generating metatexture from imported textures... ";
-	meta = new MetaTexture(texlist);
+	meta = std::make_unique<MetaTexture>(texlist);
 	texlist.clear();
 	std::cout << meta->getTexture().getSize().x << "x" << meta->getTexture().getSize().y << endl;
 }
 
-MetaTexture* Engine::getMetaTexture() const { return meta; }
+std::unique_ptr<MetaTexture>& Engine::getMetaTexture() { return meta; }
 
 void Engine::loadConfig(const std::string& file)
 {

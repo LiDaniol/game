@@ -24,7 +24,7 @@ void SpriteLayer::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 void SpriteLayer::update(const sf::FloatRect& texRect)
 {
-	sf::Vector2f mainpos = mainspr->getPosition() + offset;
+	sf::Vector2f mainpos = sf::Vector2f(mainspr->getPosition().x, mainspr->getPosition().y) + offset;
 
 	vbo[0].position = mainpos;
 	vbo[1].position = mainpos + sf::Vector2f(rect.width, 0);

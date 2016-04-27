@@ -20,7 +20,7 @@ void Tilemap::update(const sf::View& view, int margin)
 	sf::IntRect newView((view.getCenter().x - (view.getSize().x / 2.f)) / tilesize,
 						(view.getCenter().y - (view.getSize().y / 2.f)) / tilesize,
 						(view.getSize().x) / tilesize,
-						(view.getSize().y) / tilesize); // @TODO Handle rotations & all the shizzle because SFML.
+						(view.getSize().y) / tilesize);
 
 	sf::IntRect maprect(0, 0, wid, hei);
 

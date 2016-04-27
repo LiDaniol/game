@@ -3,6 +3,7 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "map/tilemap.h"
 #include "io/configfile.h"
 #include "entity/entitycontext.h"
@@ -11,7 +12,6 @@ class Engine
 {
 public:
 	Engine();
-	~Engine(); // @TODO : Use smart pointers to avoid using a destructor
 
 	void drawEntities(sf::RenderStates states);
 
@@ -19,10 +19,10 @@ public:
 	void render();
 
 	void addTilemap(unsigned int wid, unsigned int hei, unsigned int tilesize, MetaTexture& tex);
-	Tilemap* getTilemap() const;
+	std::unique_ptr<Tilemap>& getTilemap();
 
 	void generateTileConfig(const std::string& key);
-	MetaTexture* getMetaTexture() const;
+	std::unique_ptr<MetaTexture>& getMetaTexture();
 
 	void importSpritesConfig(const std::string& texkey, const std::string& layerkey);
 	void buildSprite(Sprite& spr, const std::string& name);
@@ -44,7 +44,7 @@ private:
 	Config conf;
 
 	sf::Clock renderclock;
-	sf::Clock globalclock;
+	sf::Clock titleupdateClock;
 
 		/* Windowing */
 	sf::RenderWindow window;
@@ -53,8 +53,8 @@ private:
 	bool fullscreen = false; // Redefining this won't change the fullscreen mode.
 
 		/* Rendering */
-	Tilemap* map = nullptr;
-	MetaTexture* meta = nullptr;
+	std::unique_ptr<Tilemap> map;
+	std::unique_ptr<MetaTexture> meta = nullptr;
 
 	int vbomargin = 16;
 
