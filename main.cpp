@@ -19,10 +19,6 @@ int main()
 	engine.addTilemap(500, 500, 8, *engine.getMetaTexture());
 	engine.getTilemap()->loadFromFile("maptest.conf");
 
-	Entity& e = engine.getContext().addEntity();
-	e.setPosition(sf::Vector2f(3.f, 3.f));
-	e.createSpriteFromEngineData("introship");
-
 	float viewx = 0.f, viewy = 0.f;
 
 	while (engine.loop())
@@ -42,7 +38,6 @@ int main()
 		sf::View view(sf::FloatRect(0, 0, win.getSize().x, win.getSize().y));
 		view.setCenter(viewx, viewy);
 		engine.updateView(view);
-
 		engine.render();
 	}
 }

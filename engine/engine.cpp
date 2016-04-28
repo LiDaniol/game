@@ -26,6 +26,14 @@ bool Engine::loop()
 			view.setCenter(sf::Vector2f(static_cast<int>(oldview.getCenter().x), static_cast<int>(oldview.getCenter().y)));
 			window.setView(view);
 		}
+
+		if (ev.type == sf::Event::KeyPressed)
+		{
+			if (ev.key.code == sf::Keyboard::R)
+			{
+				map->loadFromFile("maptest.conf");
+			}
+		}
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
@@ -36,7 +44,7 @@ bool Engine::loop()
 
 void Engine::render()
 {
-	window.clear(sf::Color::Black);
+	window.clear(sf::Color(191, 133, 29));
 
 	sf::RenderStates states;
 	states.texture = &meta->getTexture();
@@ -76,12 +84,12 @@ std::vector<std::pair<std::vector<StringValue>, int>> Engine::importTextureConfi
 
 	std::vector<std::pair<std::vector<StringValue>, int>> remainingMatches(resourceCount); // Extra config key data
 
-	task << "Loading texture batch with key '" << key << endl;
+	task << "Loading texture batch with key '" << key << '\'' << endl;
 
 	for (unsigned int i = 0; i < resourceCount; ++i)
 	{
 		std::vector<StringValue> texdata = conf.getArrayValue(key, i).values;
-		info << ' ' << texdata[0].value << endl;
+		info << "- " << texdata[0].value << endl;
 		texlist[i + firstit].loadFromFile(texdata[0].value);
 
 		remainingMatches[i].second = i + firstit; // assign texture ID
@@ -228,7 +236,7 @@ void Engine::updateView(const sf::View& newView, int preferredWidth)
 	if (map)
 	{
 		int zoomlevel = static_cast<int>(view.getSize().x / (preferredWidth * map->getTilesize()));
-		view.setSize(static_cast<int>(view.getSize().x / zoomlevel / 2) * 2, static_cast<int>(view.getSize().y / zoomlevel / 2) * 2);
+		view.setSize(static_cast<int>(view.getSize().x / zoomlevel), static_cast<int>(view.getSize().y / zoomlevel));
 	}
 
 	window.setView(view);
